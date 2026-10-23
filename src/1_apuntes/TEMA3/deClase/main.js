@@ -177,12 +177,12 @@ const URL = location.href; //esta forma ya le pone la barra final (es mejor)
 document.getElementById("aMail").onclick = function (e) {
     e.preventDefault();
     
-    location.replace(URL + "/email.html");
+    location.replace(URL + "/../email.html");
 }
 
 document.getElementById("aUsuarios").onclick = function (e) {
     e.preventDefault();
-    location.replace(URL + "/usuarios.html");
+    location.replace(URL + "/../usuarios.html");
 }
 
 info.innerHTML = location.href;
