@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 19</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <script src="main19.js" defer></script>
+    <style>
+        input::placeholder {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="documento">
+        <h2>Ejercicio 19</h2><br>
+        <p style="text-align: justify;">
+            19. Desarrolla una aplicación que permita calcular los salarios brutos y 
+            netos mensuales de los 
+            trabajadores de una empresa a partir de los siguientes datos: 
+            a. Número de horas trabajadas. [Campo numérico] 
+            b. Turno realizado: Mañanas (m), Tardes (t) o Noches (n). [Campo Radio Button] 
+            Para el cálculo del salario bruto se tendrá en cuenta que el turno de mañana se 
+            paga a 25 
+            €/hora, el de tarde se paga a 30 €/hora y el turno de noche se paga 35 €/hora. 
+            Para el cálculo del salario neto se realizan determinados descuentos destinados 
+            al pago de 
+            impuestos de la siguiente forma: 
+            Si el salario bruto es menor de 600 € el descuento es del 8%. 
+            Si el salario bruto está entre 600 € y 1000 € el descuento es del 10%. 
+            Si el salario bruto es mayor de 10000 € el descuento es del 12%. 
+            Se desea calcular el salario neto de cada trabajador. Para ello la aplicación 
+            irá pidiendo uno a 
+            uno los trabajadores: Nombre, apellido, Horas trabajadas, turno, hasta que el 
+            usuario indique 
+            lo contrario. Para cada trabajador se mostrará su salario neto y bruto. 
+            Antes de finalizar la aplicación mostrará el importe total de salarios brutos 
+            abonados.  
+            El script se escribirá usando tantas funciones como sea posible con el fin de 
+            poder reutilizar la 
+            máxima cantidad de código en un futuro.
+        </p><br>
+        
+
+        <p id="salariosBrutosTotal"></p>
+
+        <label for="nombreTrabaj">Nombre de trabajador/a: </label>
+        <input type="text" name="nombreTrabaj" id="nombre"> <br>
+
+        <label for="apellidoTrabaj">Apellido de trabajador/a: </label>
+        <input type="text" name="apellidoTrabaj" id="apellido"> <br>
+
+        <label for="horasTrabajadas">Número de horas trabajadas: </label>
+        <input type="number" name="horasTrabajadas" id="numHorasTrab">
+
+        <br>
+
+        <!-- RADIO BUTTONS: -->
+
+        <input type="radio" id="maniana" name="turno" value="maniana">
+        <label for="maniana">Mañana (m)</label><br>
+
+        <input type="radio" id="tarde" name="turno" value="tarde">
+        <label for="tarde">Tarde (t)</label><br>
+
+        <input type="radio" id="noche" name="turno" value="noche">
+        <label for="noche">Noche (n)</label>
+
+
+
+        <br>
+
+        <input type="button" id="bBoton" value="OK">
+
+        <p id="resultados"></p>
+        <p id="errores"></p>
+        
+
+    </div>
+</body>
+</html>

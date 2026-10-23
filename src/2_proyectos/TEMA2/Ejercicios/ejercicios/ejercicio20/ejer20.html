@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 20</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <script src="main20.js" defer></script>
+    <style>
+        input::placeholder {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="documento">
+        <h2>Ejercicio 20</h2><br>
+        <p style="text-align: justify;">
+            20.  Juego del número secreto. La página generará un número al azar entre 1 y 100 (ambos 
+            inclusive). El usuario irá introduciendo números por teclado y el ordenador le irá dando pistas: 
+            “mi número es menor” o “mi número es mayor”, hasta que el usuario acierte. Entonces se le 
+            felicitará y se indicará el número de intentos que necesitó para acertar el número secreto. 
+        </p><br>
+    
+
+        
+        <label for="numero">Número secreto</label><br>
+        <input type="number" id="numero" name="num" value="num">
+        
+
+
+
+        <br>
+
+        <input type="button" id="bBoton" value="OK">
+
+        <p id="resultados"></p>
+        <p id="errores"></p>
+        
+
+    </div>
+</body>
+</html>
