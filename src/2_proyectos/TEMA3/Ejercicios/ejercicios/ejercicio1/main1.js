@@ -3,7 +3,7 @@ let solucionEjer1 = document.getElementById("solucionEjer1");
 let aniadirPersona = document.getElementById("aniadirPersona");
 let estudiante = document.getElementById("estudiante");
 let solucionEjer1estu = document.getElementById("solucionEjer1estu");
-
+let solucionEjer1profe = document.getElementById("solucionEjer1profe");
 
 
 //persona
@@ -17,12 +17,19 @@ let curso = document.getElementById("curso");
 let grupo = document.getElementById("grupo");
 let registrarEstudiante = document.getElementById("registrarEstudiante");
 
+//profesor
+let asignatura = document.getElementById("asignatura");
+let nivel = document.getElementById("nivel");
+let asignarProfesor = document.getElementById("asignarProfesor");
+
 //objeto de ejemplo
 let objPersona = {nombre: "María", edad: 19, genero: "F"};
 
 let arrayPersonas = [];
 
 let arrayEstudiantes = [];
+
+let arrayProfesores = [];
 
 
 /************************************************************ */
@@ -34,8 +41,10 @@ aniadirPersona.onclick = function () {
 
     try {
 
-        solucionEjer1.innerHTML = "";
-
+        solucionEjer1.innerHTML = "Personas: <br><br>";
+        let nuevaPersona;
+        let num;
+        let per;
         
         if (nombre.value === "") {
             throw "El campo nombre no puede estar vacío";
@@ -69,10 +78,13 @@ aniadirPersona.onclick = function () {
         for (let oPersona of arrayPersonas) {
 
             solucionEjer1.innerHTML += obtDetalles(oPersona) + "<br>";
-            rellenarSelect(oPersona.nombre);
+
+            //ponemos la ultima persona en una variable para añadirla al select abajo
+            per = oPersona;
+            
         }
         
-
+        rellenarSelect(per.nombre);
         
 
         
@@ -90,19 +102,23 @@ solucionEjer1estu.innerHTML = "Estudiantes: <br><br>";
 
 registrarEstudiante.onclick = function () {
 
+    
+
     let opcionSeleccionada = estudiante.options[estudiante.selectedIndex];
     let nuevoEstudiante = {};
 
-    console.log(opcionSeleccionada);
+    solucionEjer1estu.innerHTML = "Estudiantes: <br><br>";
+
+    console.log(opcionSeleccionada.textContent);
 
     for (let obj in arrayPersonas) {
         console.log("hola");
         //si el nombre coincide con el seleccionado en el select:
-        if (obj.nombre == opcionSeleccionada.text) {
-            nuevoEstudiante.nombre = obj.nombre;
-            nuevoEstudiante.edad = obj.edad;
-            nuevoEstudiante.genero = obj.genero;
-            console.log(opcionSeleccionada.text);
+        if (arrayPersonas[obj].nombre == opcionSeleccionada.textContent) {
+            nuevoEstudiante.nombre = arrayPersonas[obj].nombre;
+            nuevoEstudiante.edad = arrayPersonas[obj].edad;
+            nuevoEstudiante.genero = arrayPersonas[obj].genero;
+            console.log(opcionSeleccionada.textContent);
             //las dos propiedades nuevas:
             nuevoEstudiante.curso = curso.value;
             nuevoEstudiante.grupo = grupo.value;
@@ -118,11 +134,58 @@ registrarEstudiante.onclick = function () {
     //mostramos los estudiantes:
     for (let oEstudiante of arrayEstudiantes) {
 
+        
+
         solucionEjer1estu.innerHTML += obtDetalles(oEstudiante) + "<br>";
         
     }
 }
 
+
+//------------
+//Profesor
+solucionEjer1profe.innerHTML = "Profesores: <br><br>";
+
+asignarProfesor.onclick = function () {
+
+    
+
+    let opcionSeleccionada = profesor.options[profesor.selectedIndex];
+    let nuevoProfesor = {};
+
+    solucionEjer1profe.innerHTML = "Profesores: <br><br>";
+
+    console.log(opcionSeleccionada.textContent);
+
+    for (let obj in arrayProfesores) {
+        console.log("hola");
+        //si el nombre coincide con el seleccionado en el select:
+        if (arrayProfesores[obj].nombre == opcionSeleccionada.textContent) {
+            nuevoProfesor.nombre = arrayProfesores[obj].nombre;
+            nuevoProfesor.edad = arrayProfesores[obj].edad;
+            nuevoProfesor.genero = arrayProfesores[obj].genero;
+            console.log(opcionSeleccionada.textContent);
+            //las dos propiedades nuevas:
+            nuevoProfesor.asignatura = asignatura.value;
+            nuevoProfesor.nivel = nivel.value;
+
+        }
+    }
+
+    //añadimos el estudiante
+    registrar(nuevoProfesor);
+
+    
+
+    //mostramos los estudiantes:
+    for (let oProfesor of arrayProfesores) {
+
+        
+
+        solucionEjer1profe.innerHTML += obtDetalles(oProfesor) + "<br>";
+        
+    }
+}
 
 
 
@@ -151,6 +214,7 @@ function rellenarSelect(nombrePersona) {
     nuevaOpcion.textContent = nombrePersona;
 
     estudiante.appendChild(nuevaOpcion);
+    profesor.appendChild(nuevaOpcion);
 }
 
 function registrar(objeto) {
