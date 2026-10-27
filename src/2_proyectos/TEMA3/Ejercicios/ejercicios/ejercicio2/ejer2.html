@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+    <link rel="stylesheet" href="./../../css/styles.css">
+    <script src="./main2.js" defer></script>
+</head>
+<body>
+    <div class="documento">
+        <h2>Ejercicio 2</h2><br>
+        <p style="text-align: justify;">
+            2. Calcular la longitud de una pendiente, su ángulo de inclinación (Ángulo 1 en la imagen de 
+            abajo) y el % de inclinación.  
+            • Longitud de la pendiente = √𝑙𝑜𝑛𝑔𝑖𝑡𝑢𝑑2 + 𝐴𝑙𝑡𝑢𝑟𝑎2   
+            • Ángulo de la pendiente = 𝑡𝑎𝑛 
+            Donde x1, y1 y x2, y2 son coordenadas  
+            �
+            �2−𝑥1 
+            de dos puntos cualquiera de la pendiente.  
+            • Pendiente (%) = (metros ascendidos / metros recorridos) · 100  
+        </p><br>
+
+        <br>
+
+        <label for="altura">Altura:</label>
+        <input type="number" id="altura" name="altura"><br>
+
+        <label for="longitud">Longitud:</label>
+        <input type="number" id="longitud" name="longitud"><br>
+
+        <label for="punto1">(Punto 1) x1:</label>
+        <input type="number" id="x1" name="punto1">
+        <label for="punto1">y1:</label>
+        <input type="number" id="y1" name="punto1">
+        <br>
+
+        <label for="punto2">(Punto 2) x2:</label>
+        <input type="number" id="x2" name="punto2">
+        <label for="punto2">y2:</label>
+        <input type="number" id="y2" name="punto2">
+
+        <br><br>
+
+        <button id="botonOK">OK</button>
+
+        <p id="solucionEjer2"></p>
+        <p id="errores" style="color:red;font-weight: bolder;"></p>
+
+        <br>
+    </div>
+</body>
+</html>
