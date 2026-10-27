@@ -23,7 +23,7 @@ let nivel = document.getElementById("nivel");
 let asignarProfesor = document.getElementById("asignarProfesor");
 
 //objeto de ejemplo
-let objPersona = {nombre: "María", edad: 19, genero: "F"};
+//let objPersona = {nombre: "María", edad: 19, genero: "Femenino"};
 
 let arrayPersonas = [];
 
@@ -33,7 +33,7 @@ let arrayProfesores = [];
 
 
 /************************************************************ */
-arrayPersonas.push(objPersona);
+//arrayPersonas.push(objPersona);
 solucionEjer1.innerHTML = "Personas: <br><br>";
 
 
@@ -85,6 +85,7 @@ aniadirPersona.onclick = function () {
         }
         
         rellenarSelect(per.nombre);
+        
         
 
         
@@ -173,7 +174,7 @@ asignarProfesor.onclick = function () {
     }
 
     //añadimos el estudiante
-    registrar(nuevoProfesor);
+    registrarProfe(nuevoProfesor);
 
     
 
@@ -213,13 +214,23 @@ function rellenarSelect(nombrePersona) {
     let nuevaOpcion = document.createElement("option");
     nuevaOpcion.textContent = nombrePersona;
 
+    let nuevaOpcion2 = document.createElement("option");
+    nuevaOpcion2.textContent = nombrePersona;
+
     estudiante.appendChild(nuevaOpcion);
-    profesor.appendChild(nuevaOpcion);
+    profesor.appendChild(nuevaOpcion2);
 }
 
 function registrar(objeto) {
 
     arrayEstudiantes.push(objeto);
+
+    
+}
+
+function registrarProfe(objeto) {
+
+    arrayProfesores.push(objeto);
 
     
 }
