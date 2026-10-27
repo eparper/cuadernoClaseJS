@@ -4,7 +4,7 @@ let aniadirPersona = document.getElementById("aniadirPersona");
 let estudiante = document.getElementById("estudiante");
 let solucionEjer1estu = document.getElementById("solucionEjer1estu");
 let solucionEjer1profe = document.getElementById("solucionEjer1profe");
-
+let errores = document.getElementById("errores");
 
 //persona
 let nombre = document.getElementById("nombre");
@@ -107,6 +107,7 @@ registrarEstudiante.onclick = function () {
 
     let opcionSeleccionada = estudiante.options[estudiante.selectedIndex];
     let nuevoEstudiante = {};
+    errores.innerHTML = "";
 
     solucionEjer1estu.innerHTML = "Estudiantes: <br><br>";
 
@@ -124,22 +125,47 @@ registrarEstudiante.onclick = function () {
             nuevoEstudiante.curso = curso.value;
             nuevoEstudiante.grupo = grupo.value;
 
+            
+
         }
     }
 
-    //añadimos el estudiante
-    registrar(nuevoEstudiante);
+    //si el array no está vacío, comprobamos que el seleccionado no sea ya un profe
+    if (arrayProfesores.length !== 0) {
+        for (let obProfe of arrayProfesores) {
+            
+        
+            //si el nombre no está en Profesores
+            if (nuevoEstudiante.nombre !== obProfe.nombre) {
+
+                //DENTRO DEL IF
+                registrar(nuevoEstudiante);
+
+            }
+            else {
+                errores.innerHTML = "Esta persona ya es un profesor";
+            }
+        }
+    }
+    else 
+        registrar(nuevoEstudiante); //si está vacío
+
+
+    
 
     
 
     //mostramos los estudiantes:
-    for (let oEstudiante of arrayEstudiantes) {
+    if (arrayEstudiantes.length !== 0) {
+        for (let oEstudiante of arrayEstudiantes) {
 
-        
+            console.log("está dentro del bucle");
 
-        solucionEjer1estu.innerHTML += obtDetalles(oEstudiante) + "<br>";
-        
+            solucionEjer1estu.innerHTML += obtDetalles(oEstudiante) + "<br>";
+            
+        }
     }
+    
 }
 
 
@@ -155,16 +181,17 @@ asignarProfesor.onclick = function () {
     let nuevoProfesor = {};
 
     solucionEjer1profe.innerHTML = "Profesores: <br><br>";
+    errores.innerHTML = "";
 
     console.log(opcionSeleccionada.textContent);
 
-    for (let obj in arrayProfesores) {
+    for (let obj in arrayPersonas) {
         console.log("hola");
         //si el nombre coincide con el seleccionado en el select:
-        if (arrayProfesores[obj].nombre == opcionSeleccionada.textContent) {
-            nuevoProfesor.nombre = arrayProfesores[obj].nombre;
-            nuevoProfesor.edad = arrayProfesores[obj].edad;
-            nuevoProfesor.genero = arrayProfesores[obj].genero;
+        if (arrayPersonas[obj].nombre == opcionSeleccionada.textContent) {
+            nuevoProfesor.nombre = arrayPersonas[obj].nombre;
+            nuevoProfesor.edad = arrayPersonas[obj].edad;
+            nuevoProfesor.genero = arrayPersonas[obj].genero;
             console.log(opcionSeleccionada.textContent);
             //las dos propiedades nuevas:
             nuevoProfesor.asignatura = asignatura.value;
@@ -173,18 +200,67 @@ asignarProfesor.onclick = function () {
         }
     }
 
-    //añadimos el estudiante
-    registrarProfe(nuevoProfesor);
+
+    // //añadimos el profesor
+    // for (let obEstu of arrayEstudiantes) {
+       
+    //     //si el nombre no está en Profesores
+    //     if (nuevoProfesor.nombre !== arrayEstudiantes[obEstu].nombre) {
+
+    //         //DENTRO DEL IF
+    //         registrarProfe(nuevoProfesor);
+
+    //     }
+    //     else {
+    //         errores.innerHTML = "Esta persona ya es un estudiante";
+    //     }
+    // }
+    
+
+    // //mostramos los estudiantes:
+    // for (let oProfesor of arrayProfesores) {
+
+        
+
+    //     solucionEjer1profe.innerHTML += obtDetalles(arrayProfesores[oProfesor]) + "<br>";
+        
+    // }
+
+    //si el array no está vacío, comprobamos que el seleccionado no sea ya un profe
+    if (arrayEstudiantes.length !== 0) {
+        for (let obEstu of arrayEstudiantes) {
+            
+        
+            //si el nombre no está en Profesores
+            //if (nuevoProfesor.nombre !== obEstu.nombre) {
+            if (opcionSeleccionada.textContent !== obEstu.nombre) {
+                //DENTRO DEL IF
+                registrar(nuevoProfesor);
+                break;
+
+            }
+            else {
+                errores.innerHTML = "Esta persona ya es un estudiante";
+            }
+        }
+    }
+    else 
+        registrar(nuevoProfesor); //si está vacío
+
 
     
 
-    //mostramos los estudiantes:
-    for (let oProfesor of arrayProfesores) {
+    
 
-        
+    //mostramos los profesores:
+    if (arrayProfesores.length !== 0) {
+        for (let oProfesor of arrayProfesores) {
 
-        solucionEjer1profe.innerHTML += obtDetalles(oProfesor) + "<br>";
-        
+            console.log("está dentro del bucle");
+
+            solucionEjer1profe.innerHTML += obtDetalles(oProfesor) + "<br>";
+            
+        }
     }
 }
 
@@ -217,6 +293,7 @@ function rellenarSelect(nombrePersona) {
     let nuevaOpcion2 = document.createElement("option");
     nuevaOpcion2.textContent = nombrePersona;
 
+    
     estudiante.appendChild(nuevaOpcion);
     profesor.appendChild(nuevaOpcion2);
 }
