@@ -20,6 +20,8 @@ bBoton.onclick = function () {
         }
 
         fechaNac = new Date(fecha.value);
+
+        console.log(fechaNac.getHours());
         
         //DÍAS------------------------------------------
         //los milisegundos que tiene un día

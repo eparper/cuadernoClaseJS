@@ -88,3 +88,82 @@ if ((taPrueba.value).search(re1)) { //ya ha avanzado a una posición
 document.getElementById("textNav").innerHTML = textNav.replaceAll('href="#"', 'href="#"' + 'style="color:green;"')
 
 //texto.match(re1);
+
+
+
+//**********************Ejercicio del DNI************************ */
+const iBoton = document.getElementById("iBoton");
+let dni = document.getElementById("dni");
+let email = document.getElementById("email");
+let telefono = document.getElementById("telefono");
+let urls = document.getElementById("urls");
+
+//se ignoran mayúsculas y minúsculas
+let expReg = /^[xyz]?[0-9]{7,8}[a-z]{1}$/i; //la i ignora si es mayúsculas o minúsculas
+
+//expresión de José Luis
+let expReg2 = /^([XYZ]\d{7}|\d{8}[A-Z])$/i; //los paréntesis porque lo de que empiece ^ es para todo
+let expRegEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+let expRegTelefono = /^((\+\d{2})?\d{9})$/;
+let expRegURL = /^https?:\/\/|www\.[\S]+/i;
+
+iBoton.onclick = function (e) {
+
+    e.preventDefault(); //este evento si tienes algo programado de html, no lo hagas.
+                        //puesto que lo voy a programar desde javascript
+
+    //dni
+    if (expReg.test(dni.value.trim())) //trim por si el usuario mete espacios
+        error.innerHTML = "El DNI es correcto";
+    else
+        error.innerHTML = "El DNI es incorrecto";
+
+    //email
+    if (expRegEmail.test(email.value.trim())) //trim por si el usuario mete espacios
+        error.innerHTML += "<br>El email es correcto";
+    else
+        error.innerHTML += "<br>El email es incorrecto";
+
+    //teléfono español
+
+    let myPhone = (telefono.value).trim();
+    myPhone = myPhone.replaceAll(" ", "");
+
+    if (expRegTelefono.test(myPhone)) //trim por si el usuario mete espacios
+        error.innerHTML += "<br>El teléfono es correcto";
+    else
+        error.innerHTML += "<br>El teléfono es incorrecto";
+
+
+
+    //direcciones web
+    //la primera va con test y la segunda con exec, una sí, una no,
+    //por eso se muestra una sí y una no
+    let result = null;
+    let myIndex = expRegURL.lastIndex; //esto es 0
+    if (expRegURL.test(urls.value)) { //ya ha avanzado a una posición
+        expRegURL.lastIndex = myIndex; //ya empieza en 0 el exec
+        result = expRegURL.exec(urls.value);
+        myIndex = expRegURL.lastIndex; //cogemos el anterior porque ha avanzado con exec
+        console.log(`Encontrado ${result[0]} en la posición ${result.index}.`);
+        console.log("---------------------------------");
+        
+    };
+
+
+}
+
+//**********************Ejercicio del email************************ */
+//no puede empezar por espacio o @ -> /^[^\s@]([\w\d-_])+@([\w\d-_])\.\w{2,}$/
+//o también esta: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
+
+
+//teléfono español
+telefono.addEventListener("input", function () { //en tiempo real con el evento input
+
+    //sumamos todos los caracteres diferentes de espacio en blanco
+    
+    //---
+    if ((this.value.length % 3 == 0) && (this.value.length < 9))
+        this.value = this.value + " ";
+});
