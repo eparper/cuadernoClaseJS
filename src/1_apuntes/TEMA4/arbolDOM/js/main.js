@@ -62,3 +62,85 @@ info.innerHTML = "Opciones del radio edad: ";
 for (let op of opRadio) {
     info.innerHTML += op.value + ", ";
 }
+
+//************************************************* */
+//            EJERCICIO CAMBIAR COLORES
+//************************************************* */
+const bCambiarColores = document.getElementById("cambiarColores");
+
+//Array.from para que no modifique los arrays internamente
+console.log(document.getElementsByClassName("pares")); 
+let elementosPares = Array.from(document.getElementsByClassName("pares"));
+let elementosImpares = Array.from(document.getElementsByClassName("impares"));
+
+bCambiarColores.onclick = function () {
+
+    //para que se cambien los pares
+    for (elem of elementosPares) {
+
+        if (elem.className == "pares") {
+            elem.className = "impares";
+        }
+        else { //para que sea como un interruptor
+            elem.className = "pares";
+        }
+    }
+
+    //para que se cambien los impares
+    for (elem of elementosImpares) {
+
+        if (elem.className == "pares") {
+            elem.className = "impares";
+        }
+        else { //para que sea como un interruptor
+            elem.className = "pares";
+        }
+    }
+}
+
+
+//************************************************* */
+//            CREAR Y AÑADIR NODOS
+//************************************************* */
+const nuevoPais = document.getElementById("nuevoPais");
+const btnNuevoPais = document.getElementById("btnNuevoPais");
+const error = document.getElementById("error");
+const paises = document.getElementById("paises");
+
+btnNuevoPais.onclick = function () {
+
+    let listaPaises = paises.getElementsByTagName("li");
+
+
+
+    try {
+        
+        //si está vacío
+        if (nuevoPais.value == "") {
+            throw Error("El campo no puede estar vacío.")
+        }
+
+        //añadir el elemento
+        let nuevoNodoPais = document.createElement("li");
+        //estilos
+        if (listaPaises.length % 2 == 0) { //impares para el usuario
+            nuevoNodoPais.className = "impares";
+        }
+        else 
+            nuevoNodoPais.className = "pares";
+        
+        //el texto del li
+        let nuevoNodoPaisText = document.createTextNode(nuevoPais.value);
+        nuevoNodoPais.appendChild(nuevoNodoPaisText);
+
+        paises.appendChild(nuevoNodoPais);
+
+        
+
+
+
+    }
+    catch (err) {
+        error.innerHTML = err;
+    }
+}
