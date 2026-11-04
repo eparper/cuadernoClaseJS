@@ -14,7 +14,7 @@ let milisegundosEntreFechas = fechaActual - fechaNac;
 let dias = milisegundosEntreFechas / milisegundosPorDia;
 
 //le quitamos los decimales porque tienen distinta hora los objetos Date que hemos creado
-let diasEnteros = Math.floor(dias);
+let diasEnteros = Math.floor(dias) - 1; //le resto el día de hoy
 
 solucionEjer4.innerHTML = "Llevo " + diasEnteros + " días vividos.";
 
