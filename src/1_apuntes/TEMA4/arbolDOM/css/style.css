@@ -1,7 +1,15 @@
+/* Estilos CSS para probar getElementsByClassName() */
 .pares {
     background-color: aquamarine;
-    color: black;
     border: 1px solid black;
+    border-radius: 8px;
+    padding: 0.5%;
+}
+
+.impares {
+    background-color: black;
+    color: aquamarine;
+    border: 1px solid aquamarine;
     border-radius: 8px;
     padding: 0.5%;
 }
