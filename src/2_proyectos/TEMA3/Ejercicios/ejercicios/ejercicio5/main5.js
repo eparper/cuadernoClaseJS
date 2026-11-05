@@ -94,7 +94,7 @@ bBoton.onclick = function () {
         solucionEjer5.innerHTML = "Llevo " + aniosEnteros + " años, " + diasEnteros + " días, " +
                                     horasEnteras + " horas y " + minutosEnteros + " minutos vividos.";
 
-        
+        //holaaa
 
         
         
