@@ -121,20 +121,31 @@ btnNuevoPais.onclick = function () {
         }
 
         //añadir el elemento
-        let nuevoNodoPais = document.createElement("li");
+        //let nuevoNodoPais = document.createElement("li");
+        let nuevoNodoPais = createNode("li", nuevoPais.value, "");
+
         //estilos
-        if (listaPaises.length % 2 == 0) { //impares para el usuario
-            nuevoNodoPais.className = "impares";
-        }
-        else 
-            nuevoNodoPais.className = "pares";
+        // if (listaPaises.length % 2 == 0) { //impares para el usuario
+        //     nuevoNodoPais.className = "impares";
+        // }
+        // else 
+        //     nuevoNodoPais.className = "pares";
         
         //el texto del li
-        let nuevoNodoPaisText = document.createTextNode(nuevoPais.value);
-        nuevoNodoPais.appendChild(nuevoNodoPaisText);
+        //let nuevoNodoPaisText = document.createTextNode(nuevoPais.value);
+        //nuevoNodoPais.appendChild(nuevoNodoPaisText);
 
         paises.appendChild(nuevoNodoPais);
 
+        let nuevoNodo = createNode("a", "Registrarse", "", [{href:"#"}, {name:"menu"}], "background-color:pink;");
+        if (nuevoNodo) {
+            //nuevoNodo.href = "#";
+            document.body.appendChild(nuevoNodo);
+            info.innerHTML = "<span style='color:green;'>No se ha podido insertar el nodo</span>";
+        }
+        else {
+            info.innerHTML = "<span style='color:red;'>No se ha podido insertar el nodo</span>";
+        }
         
 
 
@@ -144,3 +155,71 @@ btnNuevoPais.onclick = function () {
         error.innerHTML = err;
     }
 }
+
+
+//---------------------------------------------
+//                 FUNCIÓN CREARNODOS
+//---------------------------------------------
+/**
+ * @param string tipo
+ * @param string Texto
+ * @param string id
+ * @param string styles
+ * @param array props
+ * @return node o null si no se ha podido crear el nodo
+ */
+function createNode(tipo, texto, id, props, styles) { //controlar con arguments[] si solo se llaman dos parámetros
+
+    let elemento = null;
+
+    if ((tipo) && (typeof tipo === "string")) //si le paso undefined o null | 
+        elemento = document.createElement(tipo);    
+    else
+        return null; //porque el throw error termina la aplicación
+        //throw new Error("Debes indicar el tipo de nodo en un string");
+
+    if ((texto != "") && (typeof texto === "string")) { //por ejemplo si es una imagen
+        let elementoText = document.createTextNode(texto);
+        elemento.appendChild(elementoText);
+    }
+
+    if (id != "")
+        elemento.id = id;
+
+    if ((styles) && (typeof styles === "string"))
+        elemento.style = styles;
+
+    if ((props)) {
+
+        let claves = Object.values(props);
+        console.log(claves);
+
+        for (indice in props) {
+            
+            let propiedad = claves[indice];
+
+            console.log(propiedad);
+
+            elemento.propiedad[indice] = props[indice];
+            console.log(elemento.propiedad[indice]);
+        }
+    }
+
+    return elemento;
+
+}
+
+document.getElementById("bBorraPais").onclick = function () { 
+
+    let lista = document.getElementById("paises");
+
+    let opcionesLista = lista.getElementsByTagName("li");
+
+    if (opcionesLista.length > 3) {
+        let elemBorrado = opcionesLista[2].parentNode.removeChild(opcionesLista[2]); //para devolver el elemento borrado
+        console.log(elemBorrado);
+    }
+}
+
+//SI NO QUEREMOS RECUPERAR EL ELEMENTO BORRADO:
+document.getElementById("paises").getElementsByTagName("li")[2].remove();
