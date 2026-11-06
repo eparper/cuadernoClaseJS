@@ -282,10 +282,12 @@ bloquearEscribir.onclick = function () {
     if (bloquearEscribir.innerText == "Bloquear") {
         bloquearEscribir.innerText = "Desbloquear";
         cadena2.setAttribute("readonly", "true");
+        cadena2.setAttribute("style", "background-color:grey;");
     }
     else {
         bloquearEscribir.innerText = "Bloquear";
         cadena2.removeAttribute("readonly");
+        cadena2.setAttribute("style", "background-color:white;");
     }
 
 
