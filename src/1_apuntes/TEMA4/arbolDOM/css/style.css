@@ -13,3 +13,17 @@
     border-radius: 8px;
     padding: 0.5%;
 }
+
+.section1 {
+    float: left;
+    width: 45%;
+    height: 40%;
+    border: 2px solid black;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.section1 img {
+
+    height: 75%;
+}

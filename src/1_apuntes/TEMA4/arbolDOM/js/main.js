@@ -223,3 +223,71 @@ document.getElementById("bBorraPais").onclick = function () {
 
 //SI NO QUEREMOS RECUPERAR EL ELEMENTO BORRADO:
 document.getElementById("paises").getElementsByTagName("li")[2].remove();
+
+//**************************************************** */
+let enlaceImg = createNode("a", "Cambiar imagen", "", [], "background-color:green;border-radius:8px;color:white;padding:0.2%;");
+let img1 = document.getElementById("img1");
+//esto metido mejor en un try catch.
+//esto comprueba si existe y el tamaño 
+if (document.getElementsByClassName("section1").length >= 2) {
+    document.getElementsByClassName("section1")[1].appendChild(enlaceImg);
+
+    console.log(enlaceImg);
+
+    enlaceImg.onclick = function () {
+        img1.src = "./../../../assets/imagen2.jpg";
+    }
+}
+
+//----------
+const sections1 = document.getElementsByClassName("section1");
+
+sections1[1].getElementsByTagName("img")[0].setAttribute("src", "./../../../assets/imagen1.jpg");
+
+let borrarAtrib = createNode("a", "Borrar imagen", "", [], "background-color:green;border-radius:8px;color:white;padding:0.2%;");
+//esto metido mejor en un try catch.
+//esto comprueba si existe y el tamaño 
+if (sections1.length >= 2) {
+    sections1[1].appendChild(enlaceImg);
+    sections1[1].appendChild(borrarAtrib);
+
+    console.log(enlaceImg);
+
+    enlaceImg.onclick = function () {
+
+        //sections1[1].getElementsByTagName("img")[0].src = "./../../../assets/imagen2.jpg";
+        sections1[1].getElementsByTagName("img")[0].setAttribute("src", "./../../../assets/imagen2.jpg");
+        
+    }
+
+    //borrar atributo
+    borrarAtrib.onclick = function () {
+        sections1[1].getElementsByTagName("img")[0].removeAttribute("src");
+    }
+}
+
+//----------------
+//./../../../assets/imagen1.jpg en el index
+
+let src = sections1[1].getElementsByTagName("img")[0].getAttribute("src");
+
+//*************************************** */
+const bloquearEscribir = document.getElementById("bloquearEscribir");
+const cadena2 = document.getElementById("cadena2");
+
+bloquearEscribir.onclick = function () {
+
+    
+
+    if (bloquearEscribir.innerText == "Bloquear") {
+        bloquearEscribir.innerText = "Desbloquear";
+        cadena2.setAttribute("readonly", "true");
+    }
+    else {
+        bloquearEscribir.innerText = "Bloquear";
+        cadena2.removeAttribute("readonly");
+    }
+
+
+}
+
