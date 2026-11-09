@@ -62,7 +62,7 @@ document.getElementById("moverRedimensionar").onclick = function () {
     //siempre hay que preguntar por la ventana
     if (usersWindow) {
         usersWindow.moveTo(500,300);
-        usersWindow.resizeTo(325, 425)
+        usersWindow.resizeTo(325, 425);
         usersWindow.focus(); //que coja el foco para que se vea el cambio
         
     }
