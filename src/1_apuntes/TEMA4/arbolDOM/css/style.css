@@ -27,3 +27,18 @@
 
     height: 75%;
 }
+
+.modoNoche {
+    background-color: #C9BDBB;
+    color: #EDEBEB;
+}
+
+.modoNoche a {
+    background-color: #8F84B0;
+    color: #EAE9F0;
+}
+
+.modoNoche button {
+    background-color: darkgray;
+    color: #EAE9F0;
+}

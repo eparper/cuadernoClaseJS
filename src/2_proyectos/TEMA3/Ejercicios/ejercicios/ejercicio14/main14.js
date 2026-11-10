@@ -11,8 +11,13 @@ bBuscar.onclick = function () {
     
     console.log(texto.textContent);
 
-    let result = expReg.exec(texto.textContent);
-    result.lastIndex = 0;
+    let result = null;
+    //result = expReg.lastIndex;
+    let myIndex = expReg.lastIndex;
+
+    //--
+    expReg.lastIndex = myIndex;
+    result = expReg.exec(texto.textContent);
 
     console.log(texto.textContent);
 
@@ -22,6 +27,9 @@ bBuscar.onclick = function () {
         
         while (result != null) {
             
+            expReg.lastIndex = myIndex;
+            result = expReg.exec(texto.textContent);
+            myIndex = expReg.lastIndex;
             //aquí cogemos la longitud del valor encontrado
             //let longitud = result[0].length;
             //let posicion = result.index;
@@ -33,7 +41,7 @@ bBuscar.onclick = function () {
 
             console.log(`Encontrado ${result[0]} en la posición ${result.index}.`);
             console.log("---------------------------------");
-            result = expReg.exec(texto.textContent);
+            
 
             //reemplazamos el contenido del texto
             texto.innerHTML = textoNuevo;

@@ -293,3 +293,49 @@ bloquearEscribir.onclick = function () {
 
 }
 
+document.getElementById("bDevuelveImpares").onclick = function () {
+
+    let lista2 = document.querySelectorAll(".section1 li");
+
+    let arrayImpares = new Array();
+
+    for (let paisImpar = 0; paisImpar < lista2.length; paisImpar += 2) {
+        
+
+        arrayImpares.push(lista2[paisImpar].innerText);
+
+    }
+
+    console.dir(arrayImpares);
+}
+
+// document.getElementById("aModoNoche").onclick = function () {
+
+//     document.body.style.backgroundColor = "#C9BDBB";
+//     document.body.style.color = "#EDEBEB";
+
+//     const buttons = document.getElementsByTagName("button");
+//     for (btn of buttons) {
+//         btn.style.backgroundColor = "darkgrey";
+//         btn.style.color = "darkwhite";
+//     }
+
+//     const links = document.getElementsByTagName("a");
+//     for (ln of links) {
+//         ln.style.backgroundColor = "#8F84B0";
+//         ln.style.color = "#EAE9F0";
+//     }
+    
+//     console.log(links);
+// }
+
+//con className
+document.getElementById("aModoNoche").onclick = function () {
+
+    document.body.className = "modoNoche";
+
+    const buttons = document.getElementsByTagName("button");
+
+    console.log("Fondo de los botones: " + buttons[0].style.backgroundColor);
+    console.log("Color de los botones: " + buttons[0].style.color);
+}
