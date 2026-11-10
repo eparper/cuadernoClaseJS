@@ -137,9 +137,12 @@ btnNuevoPais.onclick = function () {
 
         paises.appendChild(nuevoNodoPais);
 
-        let nuevoNodo = createNode("a", "Registrarse", "", [{href:"#"}, {name:"menu"}], "background-color:pink;");
+        //let nuevoNodo = createNode("a", "Registrarse", "", [{href:"#"}, {name:"menu"}], "background-color:pink;");
+        let nuevoNodo = createNode("a", "Registrarse", "", "background-color:pink;");
         if (nuevoNodo) {
             //nuevoNodo.href = "#";
+
+            document.getElementById("paises").insertBefore(nuevoNodoPais, listaPaises[2]);
             document.body.appendChild(nuevoNodo);
             info.innerHTML = "<span style='color:green;'>No se ha podido insertar el nodo</span>";
         }
@@ -168,7 +171,7 @@ btnNuevoPais.onclick = function () {
  * @param array props
  * @return node o null si no se ha podido crear el nodo
  */
-function createNode(tipo, texto, id, props, styles) { //controlar con arguments[] si solo se llaman dos parámetros
+function createNode(tipo, texto, id, styles) { //controlar con arguments[] si solo se llaman dos parámetros
 
     let elemento = null;
 
@@ -189,21 +192,21 @@ function createNode(tipo, texto, id, props, styles) { //controlar con arguments[
     if ((styles) && (typeof styles === "string"))
         elemento.style = styles;
 
-    if ((props)) {
+    // if ((props)) {
 
-        let claves = Object.values(props);
-        console.log(claves);
+    //     let claves = Object.values(props);
+    //     console.log(claves);
 
-        for (indice in props) {
+    //     for (indice in props) {
             
-            let propiedad = claves[indice];
+    //         let propiedad = claves[indice];
 
-            console.log(propiedad);
+    //         console.log(propiedad);
 
-            elemento.propiedad[indice] = props[indice];
-            console.log(elemento.propiedad[indice]);
-        }
-    }
+    //         elemento.propiedad[indice] = props[indice];
+    //         console.log(elemento.propiedad[indice]);
+    //     }
+    // }
 
     return elemento;
 
@@ -329,13 +332,37 @@ document.getElementById("bDevuelveImpares").onclick = function () {
 //     console.log(links);
 // }
 
-//con className
+//CÓMO COGER ESTILOS. CON GETCOMPUTEDSTYLE Y GETPROPERTYVALUE
 document.getElementById("aModoNoche").onclick = function () {
 
-    document.body.className = "modoNoche";
+    let buttonStyle = window.getComputedStyle(document.getElementsByTagName("button")[0]);
 
-    const buttons = document.getElementsByTagName("button");
+    if (buttonStyle.getPropertyValue("background-color") == "rgb(169, 169, 169)") {
+        //estoy en modo noche, cambia a modo día
+        this.innerText = "Cambiar a modo día";
 
-    console.log("Fondo de los botones: " + buttons[0].style.backgroundColor);
-    console.log("Color de los botones: " + buttons[0].style.color);
+        document.body.className = "";
+
+    }
+    else {
+        document.body.className = "modoNoche";
+        this.innerText = "Cambiar a modo día";
+    }
+
+    // if (this.innerText = "Cambiar a modo noche") {
+    //     document.body.className = "modoNoche";
+
+    //     this.innerText = "Cambiar a modo día";
+
+    //     const buttons = document.getElementsByTagName("button");
+
+    //     let buttonStyle = window.getComputedStyle(buttons[0]);
+    // }
+    
+
+    // console.log("Fondo de los botones: " + buttonStyle.getPropertyValue("background-color"));
+    // console.log("Color de los botones: " + buttonStyle.getPropertyValue("color"));
+
+
 }
+
