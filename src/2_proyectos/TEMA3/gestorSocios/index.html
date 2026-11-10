@@ -1,13 +1,249 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestor de socios del Club Deportivo</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/main.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gestor de socios · Club Deportivo</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Tu JavaScript: crea app.js y se cargará aquí -->
+  <script src="app.js" defer></script>
 </head>
 <body>
-    
+
+  <!-- 3.1 CABECERA -->
+  <header class="cabecera">
+    <div class="cabecera__inner">
+      <div class="cabecera__marca">
+        <p class="cabecera__club">Club Deportivo</p>
+        <h1 class="cabecera__titulo">Gestor de socios</h1>
+        <p class="cabecera__fecha" id="fecha-hoy">Miércoles, 28 de octubre de 2026</p>
+      </div>
+      <p class="cabecera__hora" id="hora-actual" aria-label="Hora actual">05:29:51</p>
+    </div>
+  </header>
+
+  <main class="contenido">
+
+    <!-- 3.2 LISTADO DE SOCIOS -->
+    <section class="panel panel--listado" id="listado" aria-labelledby="titulo-listado">
+      <div class="panel__cabecera">
+        <h2 id="titulo-listado">Socios</h2>
+        <button type="button" class="btn btn--secundario" id="btn-pantalla-completa" aria-pressed="false">
+          Pantalla completa
+        </button>
+      </div>
+
+      <div class="herramientas">
+        <label class="campo campo--buscador">
+          <span class="campo__etiqueta">Buscar</span>
+          <input type="search" id="buscador" placeholder="Nombre, apellidos o email (mín. 2 letras)" autocomplete="off">
+        </label>
+
+        <label class="campo">
+          <span class="campo__etiqueta">Actividad</span>
+          <select id="filtro-actividad">
+            <option value="">Todas las actividades</option>
+            <option value="natación">Natación</option>
+            <option value="yoga">Yoga</option>
+            <option value="pádel">Pádel</option>
+            <option value="musculación">Musculación</option>
+            <option value="spinning">Spinning</option>
+            <option value="pilates">Pilates</option>
+          </select>
+        </label>
+
+        <label class="campo">
+          <span class="campo__etiqueta">Ordenar por</span>
+          <select id="orden">
+            <option value="nombre">Nombre</option>
+            <option value="apellidos">Apellidos</option>
+            <option value="jovenes">Más jóvenes primero</option>
+            <option value="antiguos">Más antiguos primero</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="tabla-wrap">
+        <table class="tabla" id="tabla-socios">
+          <thead>
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col" class="num">Edad</th>
+              <th scope="col">Actividades</th>
+              <th scope="col" class="num">Cuota</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpo-tabla">
+            <!-- Fila de ejemplo del diseño: tu JS la sustituirá -->
+            <tr>
+              <td data-label="Id">
+                <span class="id-socio"><span class="avatar">LM</span><span class="id-socio__codigo">SOC-0001</span></span>
+              </td>
+              <td data-label="Nombre">Lucía Martín R.</td>
+              <td data-label="Email">lu**********@correo.es</td>
+              <td data-label="Edad" class="num">31</td>
+              <td data-label="Actividades"><span class="chips"><span class="chip">natación</span><span class="chip">yoga</span></span></td>
+              <td data-label="Cuota" class="num">35.00 €</td>
+            </tr>
+            <!-- Fila para cuando no hay resultados (usa esta estructura desde JS):
+            <tr class="fila-vacia"><td colspan="6">No hay socios que coincidan</td></tr>
+            -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="rejilla">
+
+      <div class="columna">
+
+        <!-- 3.3 FICHA DE SOCIO -->
+        <section class="panel" id="ficha" aria-labelledby="titulo-ficha">
+          <h2 id="titulo-ficha">Ficha de socio</h2>
+
+          <form id="form-ficha" class="form-linea" novalidate>
+            <label class="campo">
+              <span class="campo__etiqueta">DNI</span>
+              <input type="text" id="ficha-dni" placeholder="12345678Z" maxlength="9" autocomplete="off">
+            </label>
+            <button type="submit" class="btn">Ver ficha</button>
+          </form>
+
+          <div id="resultado-ficha" aria-live="polite">
+            <p class="vacio" id="ficha-vacia">Escribe un DNI para ver los datos del socio.</p>
+
+            <p class="mensaje mensaje--error" id="ficha-error" hidden>No existe ningún socio con ese DNI.</p>
+
+            <article class="ficha" id="ficha-datos" hidden>
+              <header class="ficha__cabecera">
+                <span class="avatar avatar--grande" id="ficha-avatar">LM</span>
+                <div>
+                  <h3 id="ficha-nombre">Lucía Martín Ruiz</h3>
+                  <p id="ficha-id">SOC-0001</p>
+                </div>
+              </header>
+              <dl class="datos">
+                <div><dt>DNI</dt><dd id="ficha-dni-dato">12345678Z</dd></div>
+                <div><dt>Email</dt><dd><span id="ficha-email">lucia.martin@correo.es</span> <small id="ficha-dominio">(dominio: correo.es)</small></dd></div>
+                <div><dt>Teléfono</dt><dd id="ficha-telefono">612 345 678</dd></div>
+                <div><dt>Nacimiento</dt><dd id="ficha-nacimiento">martes, 14 de marzo de 1995 · 31 años</dd></div>
+                <div><dt>Alta</dt><dd id="ficha-alta">02/09/2019 · 2.600 días en el club</dd></div>
+                <div><dt>Próximo cumpleaños</dt><dd id="ficha-cumple">en 125 días</dd></div>
+                <div><dt>Actividades</dt><dd id="ficha-actividades">natación, yoga</dd></div>
+                <div><dt>Cuota mensual</dt><dd id="ficha-cuota">35.00 €</dd></div>
+              </dl>
+            </article>
+          </div>
+        </section>
+
+        <!-- 3.4 ALTA DE SOCIO -->
+        <section class="panel" id="alta" aria-labelledby="titulo-alta">
+          <h2 id="titulo-alta">Alta de socio</h2>
+
+          <form id="form-alta" novalidate>
+            <div class="form-rejilla">
+
+              <div class="campo" id="campo-nombre">
+                <label class="campo__etiqueta" for="alta-nombre">Nombre</label>
+                <input type="text" id="alta-nombre" name="nombre" placeholder="María José" autocomplete="off">
+                <p class="error-msg" id="error-nombre" role="alert"></p>
+              </div>
+
+              <div class="campo" id="campo-apellidos">
+                <label class="campo__etiqueta" for="alta-apellidos">Apellidos</label>
+                <input type="text" id="alta-apellidos" name="apellidos" placeholder="Martín Ruiz" autocomplete="off">
+                <p class="error-msg" id="error-apellidos" role="alert"></p>
+              </div>
+
+              <div class="campo" id="campo-dni">
+                <label class="campo__etiqueta" for="alta-dni">DNI</label>
+                <input type="text" id="alta-dni" name="dni" placeholder="12345678Z" maxlength="9" autocomplete="off">
+                <p class="error-msg" id="error-dni" role="alert"></p>
+              </div>
+
+              <div class="campo" id="campo-telefono">
+                <label class="campo__etiqueta" for="alta-telefono">Teléfono</label>
+                <input type="text" id="alta-telefono" name="telefono" placeholder="612 345 678" autocomplete="off">
+                <p class="error-msg" id="error-telefono" role="alert"></p>
+              </div>
+
+              <div class="campo campo--ancho" id="campo-email">
+                <label class="campo__etiqueta" for="alta-email">Email</label>
+                <input type="text" id="alta-email" name="email" placeholder="ana@correo.es" autocomplete="off">
+                <p class="error-msg" id="error-email" role="alert"></p>
+              </div>
+
+              <div class="campo campo--ancho" id="campo-nacimiento">
+                <label class="campo__etiqueta" for="alta-nacimiento">Fecha de nacimiento</label>
+                <input type="text" id="alta-nacimiento" name="nacimiento" placeholder="dd/mm/aaaa" autocomplete="off">
+                <p class="error-msg" id="error-nacimiento" role="alert"></p>
+              </div>
+
+              <fieldset class="campo campo--ancho" id="campo-actividades">
+                <legend class="campo__etiqueta">Actividades</legend>
+                <div class="opciones" id="alta-actividades">
+                  <label class="opcion"><input type="checkbox" name="actividades" value="natación"><span>Natación</span></label>
+                  <label class="opcion"><input type="checkbox" name="actividades" value="yoga"><span>Yoga</span></label>
+                  <label class="opcion"><input type="checkbox" name="actividades" value="pádel"><span>Pádel</span></label>
+                  <label class="opcion"><input type="checkbox" name="actividades" value="musculación"><span>Musculación</span></label>
+                  <label class="opcion"><input type="checkbox" name="actividades" value="spinning"><span>Spinning</span></label>
+                  <label class="opcion"><input type="checkbox" name="actividades" value="pilates"><span>Pilates</span></label>
+                </div>
+                <p class="error-msg" id="error-actividades" role="alert"></p>
+              </fieldset>
+            </div>
+
+            <div class="form-acciones">
+              <button type="submit" class="btn">Dar de alta</button>
+            </div>
+            <p class="mensaje mensaje--ok" id="aviso-alta" role="status" hidden>Socio Ana dado de alta con id SOC-0009</p>
+          </form>
+        </section>
+      </div>
+
+      <!-- 3.5 ESTADÍSTICAS -->
+      <aside class="columna columna--lateral">
+        <section class="panel panel--stats" id="estadisticas" aria-labelledby="titulo-stats">
+          <h2 id="titulo-stats">Estadísticas</h2>
+
+          <div class="cifras">
+            <div class="cifra"><span class="cifra__valor" id="stat-total">10</span><span class="cifra__texto">socios</span></div>
+            <div class="cifra"><span class="cifra__valor" id="stat-ingresos">350.00 €</span><span class="cifra__texto">ingresos al mes</span></div>
+          </div>
+
+          <dl class="datos datos--stats">
+            <div><dt>Cuota media</dt><dd id="stat-cuota-media">35.00 €</dd></div>
+            <div><dt>Edad media</dt><dd id="stat-edad-media">34.5 años</dd></div>
+            <div><dt>Edad mínima</dt><dd id="stat-edad-min">17 años</dd></div>
+            <div><dt>Edad máxima</dt><dd id="stat-edad-max">62 años</dd></div>
+            <div><dt>Actividad más popular</dt><dd id="stat-actividad">natación (6 socios)</dd></div>
+            <div><dt>¿Hay menores de edad?</dt><dd id="stat-menores">Sí</dd></div>
+            <div><dt>¿Todos tienen actividad?</dt><dd id="stat-todos-actividad">Sí</dd></div>
+          </dl>
+
+          <h3 class="subtitulo">Socios más veteranos</h3>
+          <ol class="lista-veteranos" id="stat-veteranos">
+            <li><span>Lucía Martín Ruiz</span><small>02/09/2012</small></li>
+            <li><span>Pedro Gil Soto</span><small>15/01/2014</small></li>
+            <li><span>Ana Ortega Vera</span><small>03/06/2015</small></li>
+          </ol>
+
+          <h3 class="subtitulo">Dominios de correo</h3>
+          <ul class="chips" id="stat-dominios">
+            <li class="chip">correo.es</li>
+            <li class="chip">gmail.com</li>
+          </ul>
+        </section>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>Club Deportivo · Gestor de socios</p>
+  </footer>
+
 </body>
 </html>
