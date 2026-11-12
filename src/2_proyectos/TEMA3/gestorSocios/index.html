@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gestor de socios · Club Deportivo</title>
   <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/socios.js" defer></script>
   <script src="./js/main.js" defer></script>
 </head>
 <body>
@@ -15,9 +16,9 @@
       <div class="cabecera__marca">
         <p class="cabecera__club">Club Deportivo</p>
         <h1 class="cabecera__titulo">Gestor de socios</h1>
-        <p class="cabecera__fecha" id="fecha-hoy">Miércoles, 28 de octubre de 2026</p>
+        <p class="cabecera__fecha" id="fecha-hoy"></p>
       </div>
-      <p class="cabecera__hora" id="hora-actual" aria-label="Hora actual">05:29:51</p>
+      <p class="cabecera__hora" id="hora-actual" aria-label="Hora actual"></p>
     </div>
   </header>
 
@@ -76,7 +77,7 @@
           </thead>
           <tbody id="cuerpo-tabla">
             <!-- Fila de ejemplo del diseño: tu JS la sustituirá -->
-            <tr>
+            <!-- <tr>
               <td data-label="Id">
                 <span class="id-socio"><span class="avatar">LM</span><span class="id-socio__codigo">SOC-0001</span></span>
               </td>
@@ -85,7 +86,7 @@
               <td data-label="Edad" class="num">31</td>
               <td data-label="Actividades"><span class="chips"><span class="chip">natación</span><span class="chip">yoga</span></span></td>
               <td data-label="Cuota" class="num">35.00 €</td>
-            </tr>
+            </tr> -->
             <!-- Fila para cuando no hay resultados (usa esta estructura desde JS):
             <tr class="fila-vacia"><td colspan="6">No hay socios que coincidan</td></tr>
             -->

@@ -1,147 +1,290 @@
-// Datos de ejemplo de los socios del club
-const socios = [
-  {
-    id: "SOC-0001",
-    nombre: "Lucía",
-    apellidos: "Martín Ruiz",
-    dni: "12345678Z",
-    email: "lucia.martin@correo.es",
-    telefono: "612345678",
-    fechaNacimiento: "1995-03-14",
-    fechaAlta: "2019-09-02",
-    actividades: ["natación", "yoga"],
-    cuota: 35
-  },
-  {
-    id: "SOC-0002",
-    nombre: "Álvaro",
-    apellidos: "García Pérez",
-    dni: "23456789D",
-    email: "alvaro.garcia@gmail.com",
-    telefono: "623456789",
-    fechaNacimiento: "1988-11-02",
-    fechaAlta: "2016-01-15",
-    actividades: ["musculación"],
-    cuota: 30
-  },
-  {
-    id: "SOC-0003",
-    nombre: "María José",
-    apellidos: "Fernández Gil",
-    dni: "34567890V",
-    email: "mj.fernandez@correo.es",
-    telefono: "634567890",
-    fechaNacimiento: "1979-07-21",
-    fechaAlta: "2014-03-10",
-    actividades: ["pilates", "yoga", "natación"],
-    cuota: 55
-  },
-  {
-    id: "SOC-0004",
-    nombre: "Pablo",
-    apellidos: "Sánchez Mora",
-    dni: "45678901G",
-    email: "pablo.sanchez@outlook.com",
-    telefono: "645678901",
-    fechaNacimiento: "2000-05-09",
-    fechaAlta: "2022-09-05",
-    actividades: ["pádel", "spinning"],
-    cuota: 45
-  },
-  {
-    id: "SOC-0005",
-    nombre: "Carmen",
-    apellidos: "López Navarro",
-    dni: "56789012B",
-    email: "carmen.lopez@gmail.com",
-    telefono: "656789012",
-    fechaNacimiento: "1966-12-30",
-    fechaAlta: "2012-10-01",
-    actividades: ["yoga"],
-    cuota: 25
-  },
-  {
-    id: "SOC-0006",
-    nombre: "Iván",
-    apellidos: "Ortega Vidal",
-    dni: "67890123B",
-    email: "ivan.ortega@correo.es",
-    telefono: "667890123",
-    fechaNacimiento: "2010-04-18",
-    fechaAlta: "2024-02-12",
-    actividades: ["natación"],
-    cuota: 28
-  },
-  {
-    id: "SOC-0007",
-    nombre: "Nuria",
-    apellidos: "Romero Castillo",
-    dni: "78901234X",
-    email: "nuria.romero@yahoo.es",
-    telefono: "678901234",
-    fechaNacimiento: "1992-09-25",
-    fechaAlta: "2018-06-20",
-    actividades: ["spinning", "musculación"],
-    cuota: 42
-  },
-  {
-    id: "SOC-0008",
-    nombre: "Sergio",
-    apellidos: "Muñoz Ibáñez",
-    dni: "89012345E",
-    email: "sergio.munoz@gmail.com",
-    telefono: "689012345",
-    fechaNacimiento: "1984-02-08",
-    fechaAlta: "2015-05-04",
-    actividades: ["pádel"],
-    cuota: 30
-  },
-  {
-    id: "SOC-0009",
-    nombre: "Beatriz",
-    apellidos: "Díaz Herrera",
-    dni: "90123456A",
-    email: "beatriz.diaz@outlook.com",
-    telefono: "690123456",
-    fechaNacimiento: "1998-06-17",
-    fechaAlta: "2021-01-18",
-    actividades: ["pilates", "natación"],
-    cuota: 40
-  },
-  {
-    id: "SOC-0010",
-    nombre: "José Luis",
-    apellidos: "Navarro Peña",
-    dni: "11223344B",
-    email: "joseluis.navarro@correo.es",
-    telefono: "611223344",
-    fechaNacimiento: "1957-01-29",
-    fechaAlta: "2013-09-09",
-    actividades: ["musculación", "yoga"],
-    cuota: 38
-  },
-  {
-    id: "SOC-0011",
-    nombre: "Marta",
-    apellidos: "Vega Cortés",
-    dni: "22334455Y",
-    email: "marta.vega@gmail.com",
-    telefono: "722334455",
-    fechaNacimiento: "2005-10-12",
-    fechaAlta: "2023-03-27",
-    actividades: ["spinning"],
-    cuota: 27
-  },
-  {
-    id: "SOC-0012",
-    nombre: "Íñigo",
-    apellidos: "Aguilar Santos",
-    dni: "33445566R",
-    email: "inigo.aguilar@yahoo.es",
-    telefono: "733445566",
-    fechaNacimiento: "1990-08-03",
-    fechaAlta: "2020-11-30",
-    actividades: ["pádel", "musculación", "spinning"],
-    cuota: 60
-  }
-];
+const fechaHoy = document.getElementById("fecha-hoy");
+const horaActual = document.getElementById("hora-actual");
+
+
+const tbody = document.getElementById("cuerpo-tabla");
+
+//const inputBuscador = document.getElementById("buscador");
+
+
+//---------------Cabecera---------------------------
+fechaHoy.innerHTML = muestraFechaHoyConFormato();
+
+horaActual.innerHTML = muestraHoraActual(); //lo hacemos aquí fuera del setInterval para que no tarde 1 segundo en aparecer
+
+setInterval(function () {
+
+    horaActual.innerHTML = muestraHoraActual();
+        
+}, 1000); //cada segundo
+
+//--------------------------------------------------
+//---------------Listado de socios------------------
+//--------------------------------------------------
+
+let nodoTRparaTabla;
+
+
+
+//recorrer socios para insertar los datos con nodos en la tabla
+for (let cont = 0; cont < socios.length; cont++) {
+
+    
+
+    nodoTRparaTabla = creaNodoSocioParaTabla(socios[cont]);
+
+    tbody.appendChild(nodoTRparaTabla);
+}
+
+
+
+
+
+//--------------------------------------------------
+
+
+
+
+
+
+
+
+
+//******************************FUNCIONES******************************* */
+//********************************************************************** */
+
+function muestraFechaHoyConFormato() {
+
+    let hoy = new Date();
+    let diaSemana = hoy.getDay();
+
+    let arrayDiasSemana = [
+        "Domingo", // es 0
+        "Lunes",
+        "Martes",
+        "Miércoles",
+        "Jueves",
+        "Viernes",
+        "Sábado"
+    ];
+
+    let diaString = arrayDiasSemana[diaSemana];
+
+    let diaMes = hoy.getDate();
+
+    let mes = hoy.getMonth();
+
+    let arrayMeses = [
+        "enero", // es 0
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre"
+    ];
+
+    let mesString = arrayMeses[mes];
+
+    let anio = hoy.getFullYear();
+
+    return diaString + ", " + diaMes + " de " + mesString + " de " + anio;
+
+
+}
+
+function muestraHoraActual() {
+
+    let hoy = new Date();
+
+    let hora = hoy.getHours();
+    let minutos = hoy.getMinutes();
+    let segundos = hoy.getSeconds();
+
+    
+
+    let cadena = saneaHora(hora) + ":" + saneaHora(minutos) + ":" + saneaHora(segundos);
+
+    return cadena;
+}
+
+function saneaHora(elemento) {
+
+    elemento = elemento.toString().padStart(2, "0");
+
+    return elemento;
+    
+
+}
+
+//i: el nodo que se quiere insertar. 
+//e: el nodo tras el que se quiere insertar otro. 
+function insertAfter(i, e) {
+    if (e.nextSibling) { // El siguiente hermano de e 
+        e.parentNode.insertBefore(i, e.nextSibling);
+    } else {
+        e.parentNode.appendChild(i);
+    }
+}
+
+//---------------------------------------------
+//                 FUNCIÓN CREARNODOS
+//---------------------------------------------
+/**
+ * @param string tipo nombre del elemento
+ * @param string Texto El texto que contienen las etiquetas
+ * @param string id El id que tiene
+ * @param string styles Estilos
+ * @param array props Es un array de objetos
+ * @return node o null si no se ha podido crear el nodo
+ */
+function createNode(tipo, texto, id, styles, props) { //controlar con arguments[] si solo se llaman dos parámetros
+
+    let elemento = null;
+
+    if ((tipo) && (typeof tipo === "string")) //si le paso undefined o null | 
+        elemento = document.createElement(tipo);    
+    else
+        return null; //porque el throw error termina la aplicación
+        //throw new Error("Debes indicar el tipo de nodo en un string");
+
+    if (texto && (typeof texto === "string")) { //por ejemplo si es una imagen
+        let elementoText = document.createTextNode(texto);
+        elemento.appendChild(elementoText);
+    }
+
+    if (id && typeof id === "string") 
+        elemento.id = id;
+
+    if ((styles) && (typeof styles === "string"))
+        elemento.style = styles;
+
+    if (Array.isArray(props)) { //si props es un array
+
+        //recorro el array primero
+        for (let obj of props) { //for of para recorrer los objetos
+
+            //recorremos cada objeto
+            for (let propiedad in obj) { //for in para recorrer las propiedades
+                elemento.setAttribute(propiedad, obj[propiedad]);
+            }
+        }
+    }
+
+    return elemento;
+
+}
+
+{
+
+//hay que construir lo siguiente para insertar en la tabla:
+/* <td data-label="Id">
+    <span class="id-socio">
+        <span class="avatar">LM</span>
+        <span class="id-socio__codigo">SOC-0001</span>
+    </span>
+</td>
+<td data-label="Nombre">Lucía Martín R.</td>
+<td data-label="Email">lu**********@correo.es</td>
+
+<td data-label="Edad" class="num">31</td>
+<td data-label="Actividades"><span class="chips"><span class="chip">natación</span><span class="chip">yoga</span></span></td>
+<td data-label="Cuota" class="num">35.00 €</td> */}
+
+function creaNodoSocioParaTabla (socio) {
+
+    let elementoTR = createNode("tr", "", "", "", []);
+
+    let nombreCompleto = socio.nombre + " " + socio.apellidos;
+
+    //PARA EL ID
+    let elementoTD = createNode("td", "", "", "", [{"data-label":"Id"}]);
+    let span1 = createNode("span", "", "", "", [{class:"id-socio"}]);
+    let span2 = createNode("span", sacarInicialesNombre(nombreCompleto), "", "", [{class:"avatar"}]);
+    let span3 = createNode("span", socio.id, "", "", [{class:"id-socio__codigo"}]);
+
+    span1.appendChild(span2);
+    span1.appendChild(span3);
+    elementoTD.appendChild(span1);
+    elementoTR.appendChild(elementoTD);
+
+    //PARA EL NOMBRE
+    let elementoTDnombre = createNode("td", abreviarSegundoApellido(nombreCompleto), "", "", [{"data-label":"Nombre"}]);
+    elementoTR.appendChild(elementoTDnombre);
+
+    //PARA EL EMAIL
+    let elementoTDemail = createNode("td", ocultarEmail(socio.email), "", "", [{"data-label":"Email"}]);
+    elementoTR.appendChild(elementoTDemail);
+
+    //PARA LA EDAD
+
+    return elementoTR;
+}
+
+function sacarInicialesNombre(nombreCompleto) {
+
+    let partesNombre = nombreCompleto.split(" ");
+
+    let primerNombre = partesNombre[0];
+    let primerApellido = partesNombre[1];
+
+    let letraNombre = primerNombre.charAt(0);
+    let letraApellido = primerApellido.charAt(0);
+
+    return letraNombre + letraApellido;
+}
+
+function abreviarSegundoApellido(nombreCompleto) {
+
+    let partesNombre = nombreCompleto.split(" ");
+    
+    let primerNombre = partesNombre[0];
+    let primerApellido = partesNombre[1];
+    let segundoApellido = partesNombre[2];
+
+    let letraApellido = segundoApellido.charAt(0);
+
+    //devuelve el nombre, primer apellido y letra con punto
+    return primerNombre + " " + primerApellido + " " + letraApellido + ".";
+}
+
+function ocultarEmail(email) {
+
+    let emailSinDominio = email.split("@")[0];
+
+    let dosPrimerasLetras = emailSinDominio.substr(0, 2);
+    let tamanioEmail = emailSinDominio.length;
+
+    //let tamanioEmailSin2letras = tamanioEmail - 2;
+
+    return dosPrimerasLetras.padEnd(tamanioEmail, "*") + "@" + email.split("@")[1];
+}
+
+function aniosCumplidosHoy(fechaNacimiento) {
+
+    let hoy = new Date();
+
+    let fechaNac = new Date(fechaNacimiento);
+
+    //restamos los años en bruto
+    let anios = hoy.getFullYear() - fechaNac.getFullYear();
+
+
+    //si diferenciaMeses da negativo es que el mes de fecha de nacimiento es mayor
+    //si diferenciaMeses da positivo es que el mes de hoy es mayor
+    //si da 0, es que son iguales los meses;
+    const diferenciaMeses = hoy.getMonth() - fechaNac.getMonth();
+
+    //si diferenciaMeses es menor de 0: le restamos un año a los años brutos porque significa que el mes de cumpleaños no ha llegado aún
+    //si los meses son iguales también vamos a comprobar que el día de cumpleaños no haya llegado aún (o sea, que el día de hoy sea menor que el de cumple), 
+    //en este caso también se le resta 1 porque no ha llegado su cumpleaños
+    if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < fechaNac.getDate())) {
+        anios--;
+    }
+
+}

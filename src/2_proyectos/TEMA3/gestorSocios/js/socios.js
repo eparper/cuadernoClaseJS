@@ -1,0 +1,147 @@
+// Datos de ejemplo de los socios del club
+const socios = [
+  {
+    id: "SOC-0001",
+    nombre: "Lucía",
+    apellidos: "Martín Ruiz",
+    dni: "12345678Z",
+    email: "lucia.martin@correo.es",
+    telefono: "612345678",
+    fechaNacimiento: "1995-03-14",
+    fechaAlta: "2019-09-02",
+    actividades: ["natación", "yoga"],
+    cuota: 35
+  },
+  {
+    id: "SOC-0002",
+    nombre: "Álvaro",
+    apellidos: "García Pérez",
+    dni: "23456789D",
+    email: "alvaro.garcia@gmail.com",
+    telefono: "623456789",
+    fechaNacimiento: "1988-11-02",
+    fechaAlta: "2016-01-15",
+    actividades: ["musculación"],
+    cuota: 30
+  },
+  {
+    id: "SOC-0003",
+    nombre: "María",
+    apellidos: "Fernández Gil",
+    dni: "34567890V",
+    email: "mj.fernandez@correo.es",
+    telefono: "634567890",
+    fechaNacimiento: "1979-07-21",
+    fechaAlta: "2014-03-10",
+    actividades: ["pilates", "yoga", "natación"],
+    cuota: 55
+  },
+  {
+    id: "SOC-0004",
+    nombre: "Pablo",
+    apellidos: "Sánchez Mora",
+    dni: "45678901G",
+    email: "pablo.sanchez@outlook.com",
+    telefono: "645678901",
+    fechaNacimiento: "2000-05-09",
+    fechaAlta: "2022-09-05",
+    actividades: ["pádel", "spinning"],
+    cuota: 45
+  },
+  {
+    id: "SOC-0005",
+    nombre: "Carmen",
+    apellidos: "López Navarro",
+    dni: "56789012B",
+    email: "carmen.lopez@gmail.com",
+    telefono: "656789012",
+    fechaNacimiento: "1966-12-30",
+    fechaAlta: "2012-10-01",
+    actividades: ["yoga"],
+    cuota: 25
+  },
+  {
+    id: "SOC-0006",
+    nombre: "Iván",
+    apellidos: "Ortega Vidal",
+    dni: "67890123B",
+    email: "ivan.ortega@correo.es",
+    telefono: "667890123",
+    fechaNacimiento: "2010-04-18",
+    fechaAlta: "2024-02-12",
+    actividades: ["natación"],
+    cuota: 28
+  },
+  {
+    id: "SOC-0007",
+    nombre: "Nuria",
+    apellidos: "Romero Castillo",
+    dni: "78901234X",
+    email: "nuria.romero@yahoo.es",
+    telefono: "678901234",
+    fechaNacimiento: "1992-09-25",
+    fechaAlta: "2018-06-20",
+    actividades: ["spinning", "musculación"],
+    cuota: 42
+  },
+  {
+    id: "SOC-0008",
+    nombre: "Sergio",
+    apellidos: "Muñoz Ibáñez",
+    dni: "89012345E",
+    email: "sergio.munoz@gmail.com",
+    telefono: "689012345",
+    fechaNacimiento: "1984-02-08",
+    fechaAlta: "2015-05-04",
+    actividades: ["pádel"],
+    cuota: 30
+  },
+  {
+    id: "SOC-0009",
+    nombre: "Beatriz",
+    apellidos: "Díaz Herrera",
+    dni: "90123456A",
+    email: "beatriz.diaz@outlook.com",
+    telefono: "690123456",
+    fechaNacimiento: "1998-06-17",
+    fechaAlta: "2021-01-18",
+    actividades: ["pilates", "natación"],
+    cuota: 40
+  },
+  {
+    id: "SOC-0010",
+    nombre: "Luis",
+    apellidos: "Navarro Peña",
+    dni: "11223344B",
+    email: "joseluis.navarro@correo.es",
+    telefono: "611223344",
+    fechaNacimiento: "1957-01-29",
+    fechaAlta: "2013-09-09",
+    actividades: ["musculación", "yoga"],
+    cuota: 38
+  },
+  {
+    id: "SOC-0011",
+    nombre: "Marta",
+    apellidos: "Vega Cortés",
+    dni: "22334455Y",
+    email: "marta.vega@gmail.com",
+    telefono: "722334455",
+    fechaNacimiento: "2005-10-12",
+    fechaAlta: "2023-03-27",
+    actividades: ["spinning"],
+    cuota: 27
+  },
+  {
+    id: "SOC-0012",
+    nombre: "Íñigo",
+    apellidos: "Aguilar Santos",
+    dni: "33445566R",
+    email: "inigo.aguilar@yahoo.es",
+    telefono: "733445566",
+    fechaNacimiento: "1990-08-03",
+    fechaAlta: "2020-11-30",
+    actividades: ["pádel", "musculación", "spinning"],
+    cuota: 60
+  }
+];
