@@ -212,20 +212,20 @@ function createNode(tipo, texto, id, styles) { //controlar con arguments[] si so
 
 }
 
-document.getElementById("bBorraPais").onclick = function () { 
+// document.getElementById("bBorraPais").onclick = function () { 
 
-    let lista = document.getElementById("paises");
+//     let lista = document.getElementById("paises");
 
-    let opcionesLista = lista.getElementsByTagName("li");
+//     let opcionesLista = lista.getElementsByTagName("li");
 
-    if (opcionesLista.length > 3) {
-        let elemBorrado = opcionesLista[2].parentNode.removeChild(opcionesLista[2]); //para devolver el elemento borrado
-        console.log(elemBorrado);
-    }
-}
+//     if (opcionesLista.length > 3) {
+//         let elemBorrado = opcionesLista[2].parentNode.removeChild(opcionesLista[2]); //para devolver el elemento borrado
+//         console.log(elemBorrado);
+//     }
+// }
 
 //SI NO QUEREMOS RECUPERAR EL ELEMENTO BORRADO:
-document.getElementById("paises").getElementsByTagName("li")[2].remove();
+// document.getElementById("paises").getElementsByTagName("li")[2].remove();
 
 //**************************************************** */
 let enlaceImg = createNode("a", "Cambiar imagen", "", [], "background-color:green;border-radius:8px;color:white;padding:0.2%;");
@@ -366,3 +366,44 @@ document.getElementById("aModoNoche").onclick = function () {
 
 }
 
+let bSustituye = document.getElementById("bSustituye");
+let paises2 = document.getElementById("paises");
+let listaPaises = paises.getElementsByTagName("li");
+
+bSustituye.onclick = function () {
+
+    let paisSustituir = createNode("li", document.getElementById("nuevoPais").value, "", "");
+
+    paises2.replaceChild(paisSustituir, listaPaises[2]);
+}
+
+let bClonaLista = document.getElementById("bClonaLista");
+
+bClonaLista.addEventListener("click", () => {
+
+    let section = document.getElementById("s4");
+
+    let clon = paises2.cloneNode(true);
+
+    console.log(clon);
+
+    clon.appendChild(createNode("li", "Noruega", "", ""));
+
+    section.appendChild(clon);
+});
+
+//************************PROPIEDADES DE LOS NODOS************************** */
+console.log("Atributos: " + paises2.attributes[0].name + ". Valor del atributo: " + paises2.attributes[0].value);
+
+// for (let elem of paises2.childNodes) {
+//     console.log("Elemento con childNodes: " + elem);
+// }
+
+for (let elem of paises2.children) {
+    console.log(elem);
+}
+
+console.dir(paises2.firstChild); //devuelve el elemento, que puede ser un comentario
+console.dir(paises2.firstElementChild); //NODOS CON ELEMENT (ETIQUETAS HTML)
+console.dir(paises2.children[2].nextSibling);
+console.dir(paises2.children[2].nextElementSibling);
