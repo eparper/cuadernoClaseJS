@@ -4,7 +4,8 @@ const horaActual = document.getElementById("hora-actual");
 
 const tbody = document.getElementById("cuerpo-tabla");
 
-//const inputBuscador = document.getElementById("buscador");
+const inputBuscador = document.getElementById("buscador");
+
 
 
 //---------------Cabecera---------------------------
@@ -12,32 +13,63 @@ fechaHoy.innerHTML = muestraFechaHoyConFormato();
 
 horaActual.innerHTML = muestraHoraActual(); //lo hacemos aquí fuera del setInterval para que no tarde 1 segundo en aparecer
 
-setInterval(function () {
+// setInterval(function () {
 
-    horaActual.innerHTML = muestraHoraActual();
+//     horaActual.innerHTML = muestraHoraActual();
         
-}, 1000); //cada segundo
+// }, 1000); //cada segundo
 
 //--------------------------------------------------
 //---------------Listado de socios------------------
 //--------------------------------------------------
 
-let nodoTRparaTabla;
+let arrayNodosTR = muestraTablaConDatos(socios);
 
 
 
-//recorrer socios para insertar los datos con nodos en la tabla
-for (let cont = 0; cont < socios.length; cont++) {
+//----------------------Buscador--------------------
+
+
+
+inputBuscador.addEventListener("input", function () { //para que se vaya actualizando
+    let escrito = inputBuscador.value;
+
+    //let expConTildes = new RegExp("[áéíóú]", "ig");
 
     
+    //le quitamos las tildes (NFD es para descomponer la letra con tilde y separar la tilde y poder eliminarla)
+    //u0300 y u036f es el rango unicode donde están todas las tildes
+    //"" se reemplaza por cadena vacía para eliminar las tildes 
+    escrito = escrito.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    
 
-    nodoTRparaTabla = creaNodoSocioParaTabla(socios[cont]);
+    //let regExp = new RegExp(escrito, "ig"); //la i para que ignore mayúsculas y minúsculas
+    let arrayCoincidencias = [];
 
-    tbody.appendChild(nodoTRparaTabla);
-}
+    if (escrito.length >= 2) {
+        
+        for (let obSocio of socios) {
+            
+            //si lo escrito a partir de 2 letras coincide con algún nombre, apellidos o email 
+            if (regExp.test(obSocio.nombre) || regExp.test(obSocio.apellidos) || regExp.test(obSocio.email)) {
 
+                arrayCoincidencias.push(obSocio);
+            }
+        }
 
-
+        limpiaTabla(arrayNodosTR);
+        arrayNodosTR = muestraTablaConDatos(arrayCoincidencias);
+        
+        
+        
+    }
+    else {
+        limpiaTabla(arrayNodosTR);
+        arrayNodosTR = muestraTablaConDatos(socios);
+    }
+    
+    
+});
 
 
 //--------------------------------------------------
@@ -180,7 +212,7 @@ function createNode(tipo, texto, id, styles, props) { //controlar con arguments[
 
 }
 
-{
+
 
 //hay que construir lo siguiente para insertar en la tabla:
 /* <td data-label="Id">
@@ -191,10 +223,17 @@ function createNode(tipo, texto, id, styles, props) { //controlar con arguments[
 </td>
 <td data-label="Nombre">Lucía Martín R.</td>
 <td data-label="Email">lu**********@correo.es</td>
-
 <td data-label="Edad" class="num">31</td>
-<td data-label="Actividades"><span class="chips"><span class="chip">natación</span><span class="chip">yoga</span></span></td>
-<td data-label="Cuota" class="num">35.00 €</td> */}
+
+<td data-label="Actividades">
+    <span class="chips">
+
+        <span class="chip">natación</span>
+        <span class="chip">yoga</span>
+    </span>
+</td>
+
+<td data-label="Cuota" class="num">35.00 €</td> */
 
 function creaNodoSocioParaTabla (socio) {
 
@@ -222,6 +261,23 @@ function creaNodoSocioParaTabla (socio) {
     elementoTR.appendChild(elementoTDemail);
 
     //PARA LA EDAD
+    let elementoTDedad = createNode("td", aniosCumplidosHoy(socio.fechaNacimiento).toString(), "", "", [{"data-label":"Edad"}, {class: "num"}]);
+    elementoTR.appendChild(elementoTDedad);
+
+    //PARA LAS ACTIVIDADES
+    let elementoTDactividades = createNode("td", "", "", "", [{"data-label":"Actividades"}]);
+    elementoTR.appendChild(elementoTDactividades);
+    let spanACTS1 = createNode("span", "", "", "", [{"class":"chips"}]);
+    elementoTDactividades.appendChild(spanACTS1);
+    for (let cont in socio.actividades) {
+
+        let spanDeCadaActi = createNode("span", socio.actividades[cont], "", "", [{"class":"chip"}]);
+        spanACTS1.appendChild(spanDeCadaActi);
+    }
+
+
+    let elementoTDcuota = createNode("td", saneaCuota(socio.cuota) + " €", "", "", [{"data-label":"Cuota"},{"class":"num"}]);
+    elementoTR.appendChild(elementoTDcuota);
 
     return elementoTR;
 }
@@ -287,4 +343,40 @@ function aniosCumplidosHoy(fechaNacimiento) {
         anios--;
     }
 
+    return anios;
+
+}
+
+function saneaCuota(enteroCuota) {
+
+    return enteroCuota.toPrecision(4);
+
+}
+
+function muestraTablaConDatos(listaSocios) {
+    let nodoTRparaTabla;
+    let arrayNodosTR = [];
+
+    //recorrer socios para insertar los datos con nodos en la tabla
+    for (let cont = 0; cont < listaSocios.length; cont++) {
+
+        nodoTRparaTabla = creaNodoSocioParaTabla(listaSocios[cont]);
+
+        //añadimos el nodo al array para luego devolverlo:
+        arrayNodosTR.push(nodoTRparaTabla);
+
+        tbody.appendChild(nodoTRparaTabla);
+    }
+
+    return arrayNodosTR; //esto son todos los tr en un array
+}
+
+function limpiaTabla(arrayNodosABorrar) {
+
+    for (let i in arrayNodosABorrar) {
+        tbody.removeChild(arrayNodosABorrar[i]);
+    }
+    
+
+    
 }
