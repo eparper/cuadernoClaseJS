@@ -6,7 +6,8 @@ const tbody = document.getElementById("cuerpo-tabla");
 
 const inputBuscador = document.getElementById("buscador");
 
-
+const filtroActividad = document.getElementById("filtro-actividad"); //es una lista desplegable (select - option)
+const orden = document.getElementById("orden"); //es una lista desplegable (select - option)
 
 //---------------Cabecera---------------------------
 fechaHoy.innerHTML = muestraFechaHoyConFormato();
@@ -22,68 +23,259 @@ horaActual.innerHTML = muestraHoraActual(); //lo hacemos aquí fuera del setInte
 //--------------------------------------------------
 //---------------Listado de socios------------------
 //--------------------------------------------------
-
+let arrayCoincidenciasFiltrosBuscar = [];
 let arrayNodosTR = muestraTablaConDatos(socios);
 
-
+filtros();
 
 //----------------------Buscador--------------------
 
+inputBuscador.addEventListener("input", filtros);
 
-
-inputBuscador.addEventListener("input", function () { //para que se vaya actualizando
-    let escrito = inputBuscador.value;
-
-    //let expConTildes = new RegExp("[áéíóú]", "ig");
-
+// inputBuscador.addEventListener("input", function () { //para que se vaya actualizando
+//     let escrito = inputBuscador.value;
+  
     
-    //le quitamos las tildes (NFD es para descomponer la letra con tilde y separar la tilde y poder eliminarla)
-    //u0300 y u036f es el rango unicode donde están todas las tildes
-    //"" se reemplaza por cadena vacía para eliminar las tildes 
-    escrito = escrito.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
+//     escrito = ignorarTildes(escrito);
 
-    //let regExp = new RegExp(escrito, "ig"); //la i para que ignore mayúsculas y minúsculas
-    let arrayCoincidencias = [];
 
-    if (escrito.length >= 2) {
+//     let regExp = new RegExp(escrito, "ig"); //la i para que ignore mayúsculas y minúsculas
+//     let arrayCoincidencias = [];
+
+//     if (escrito.length >= 2) {
         
-        for (let obSocio of socios) {
+//         for (let obSocio of socios) {
+
+//             //quitar tildes
+//             let nombreSinTildes = ignorarTildes(obSocio.nombre);
+//             let apellidosSinTildes = ignorarTildes(obSocio.apellidos);
+//             let emailSinTildes = ignorarTildes(obSocio.email);
             
-            //si lo escrito a partir de 2 letras coincide con algún nombre, apellidos o email 
-            if (regExp.test(obSocio.nombre) || regExp.test(obSocio.apellidos) || regExp.test(obSocio.email)) {
+//             //si lo escrito a partir de 2 letras coincide con algún nombre, apellidos o email 
+//             if (regExp.test(nombreSinTildes) || regExp.test(apellidosSinTildes) || regExp.test(emailSinTildes)) {
 
-                arrayCoincidencias.push(obSocio);
-            }
-        }
+//                 arrayCoincidencias.push(obSocio);
 
-        limpiaTabla(arrayNodosTR);
-        arrayNodosTR = muestraTablaConDatos(arrayCoincidencias);
+//                 if (!arrayCoincidenciasFiltrosBuscar.includes(obSocio))
+//                     arrayCoincidenciasFiltrosBuscar.push(obSocio);
+//             }
+//         }
+
+//         limpiaTabla(arrayNodosTR);
+//         // arrayNodosTR = muestraTablaConDatos(arrayCoincidencias);
+//         arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
         
         
         
-    }
-    else {
-        limpiaTabla(arrayNodosTR);
-        arrayNodosTR = muestraTablaConDatos(socios);
-    }
+//     }
+//     else {
+//         limpiaTabla(arrayNodosTR);
+//         //arrayNodosTR = muestraTablaConDatos(socios);
+//         arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+//     }
     
     
-});
+// });
 
 
 //--------------------------------------------------
+//------------Filtro de actividad-------------------
 
+filtroActividad.addEventListener("change", filtros);
 
+// filtroActividad.addEventListener("change", function () {
 
+//     let textoActiSeleccionada = this.options[this.selectedIndex].text;
+//     let arraySociosDeUnaActividad = [];
 
+//     //por cada socio vamos a ver en sus actividades si incluye la actividad buscada
+//     for (let obSocio of socios) {
 
+//         let arrayActividades = obSocio.actividades;
 
+//         let tieneActividad = arrayActividades.includes(textoActiSeleccionada.toLowerCase()); //lo ponemos en minúscula porque en el texto del option está la primera en mayúscula
+        
+//         //si el socio tiene esa actividad, lo metemos al array
+//         if (tieneActividad) {
+//             //arraySociosDeUnaActividad.push(obSocio);
 
+//             if (!arrayCoincidenciasFiltrosBuscar.includes(obSocio))
+//                 arrayCoincidenciasFiltrosBuscar.push(obSocio);
+//         }
+//         else if (this.value == "") { //si es todas las actividades
+//             //arraySociosDeUnaActividad = arrayCoincidenciasFiltrosBuscar; //si pones Todas las actividades salen todos los socios
 
+//             arrayCoincidenciasFiltrosBuscar = socios;
+            
 
+//         }
+//         else { //si no tiene la actividad
+//             arrayCoincidenciasFiltrosBuscar = arrayCoincidenciasFiltrosBuscar.filter(socio => socio.id !== obSocio.id);
+            
+//         }
+
+        
+        
+//     }
+
+    
+
+//     limpiaTabla(arrayNodosTR);
+//     //arrayNodosTR = muestraTablaConDatos(arraySociosDeUnaActividad);
+//     arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+
+// });
+
+//--------------------------------------------------
+//-----------------Orden----------------------------
+orden.addEventListener("change", filtros);
+// orden.addEventListener("change", function () {
+
+//     if (this.value == "nombre") {
+//         arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
+//                                                             let nombreA = ignorarTildes(a.nombre);
+//                                                             let nombreB = ignorarTildes(b.nombre);
+//                                                             if (nombreA < nombreB) return -1;
+//                                                             if (nombreA > nombreB) return 1;
+//                                                             return 0;
+//                                                         });
+
+//         // limpiaTabla(arrayNodosTR);
+//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenNombre);
+//     }
+
+//     if (this.value == "apellidos") {
+//         arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
+//                                                             let apellidoA = ignorarTildes(a.apellidos);
+//                                                             let apellidoB = ignorarTildes(b.apellidos);
+//                                                             if (apellidoA < apellidoB) return -1;
+//                                                             if (apellidoA > apellidoB) return 1;
+//                                                             return 0;
+//                                                         });
+
+//         // limpiaTabla(arrayNodosTR);
+//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenApellido);
+//     }
+
+//     if (this.value == "jovenes") {
+//         arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(a.fechaNacimiento) 
+//                                                                     - aniosCumplidosHoy(b.fechaNacimiento)});
+
+//         // limpiaTabla(arrayNodosTR);
+//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenJovenes);
+//     }
+    
+//     if (this.value == "antiguos") {
+//         arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(b.fechaNacimiento) 
+//                                                                     - aniosCumplidosHoy(a.fechaNacimiento)});
+
+//         // limpiaTabla(arrayNodosTR);
+//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenAntiguos);
+//     }
+
+//     limpiaTabla(arrayNodosTR);
+//     arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+
+// });
+
+function filtros() {
+
+    //FILTRO DE BÚSQUEDA
+    arrayCoincidenciasFiltrosBuscar = socios;
+
+    let escrito = ignorarTildes(inputBuscador.value).trim();
+
+    if (escrito.length >= 2) {
+        
+        let regExp = new RegExp(escrito, "i");
+
+        arrayCoincidenciasFiltrosBuscar = arrayCoincidenciasFiltrosBuscar.filter(obSocio => {
+            let nombreSinTildes = ignorarTildes(obSocio.nombre);
+            let apellidosSinTildes = ignorarTildes(obSocio.apellidos);
+            let emailSinTildes = ignorarTildes(obSocio.email);
+
+            return regExp.test(nombreSinTildes) || 
+                   regExp.test(apellidosSinTildes) || 
+                   regExp.test(emailSinTildes);
+        });
+    }
+
+    
+
+    //FILTRO DE ACTIVIDAD
+    //por cada socio vamos a ver en sus actividades si incluye la actividad buscada
+    if (filtroActividad.value !== "") {
+        let textoActiSeleccionada = filtroActividad.options[filtroActividad.selectedIndex].text.toLowerCase();
+
+        arrayCoincidenciasFiltrosBuscar = arrayCoincidenciasFiltrosBuscar.filter(obSocio => 
+            obSocio.actividades.includes(textoActiSeleccionada)
+        );
+    }
+
+    //FILTRO DE ORDEN
+    if (orden.value == "nombre") {
+        arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
+                                                            let nombreA = ignorarTildes(a.nombre);
+                                                            let nombreB = ignorarTildes(b.nombre);
+                                                            if (nombreA < nombreB) return -1;
+                                                            if (nombreA > nombreB) return 1;
+                                                            return 0;
+                                                        });
+
+        // limpiaTabla(arrayNodosTR);
+        // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenNombre);
+    }
+
+    if (orden.value == "apellidos") {
+        arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
+                                                            let apellidoA = ignorarTildes(a.apellidos);
+                                                            let apellidoB = ignorarTildes(b.apellidos);
+                                                            if (apellidoA < apellidoB) return -1;
+                                                            if (apellidoA > apellidoB) return 1;
+                                                            return 0;
+                                                        });
+
+        // limpiaTabla(arrayNodosTR);
+        // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenApellido);
+    }
+
+    if (orden.value == "jovenes") {
+        arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(a.fechaNacimiento) 
+                                                                    - aniosCumplidosHoy(b.fechaNacimiento)});
+
+        // limpiaTabla(arrayNodosTR);
+        // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenJovenes);
+    }
+    
+    if (orden.value == "antiguos") {
+        arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(b.fechaNacimiento) 
+                                                                    - aniosCumplidosHoy(a.fechaNacimiento)});
+
+        // limpiaTabla(arrayNodosTR);
+        // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenAntiguos);
+    }
+
+    limpiaTabla(arrayNodosTR);
+    arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+}
+
+//********************************************************************** */
 //******************************FUNCIONES******************************* */
 //********************************************************************** */
+
+
+
+function ignorarTildes(cadena) {
+
+    return cadena.toLowerCase()
+            .replace(/á/gi, "a")
+            .replace(/é/gi, "e")
+            .replace(/í/gi, "i")
+            .replace(/ó/gi, "o")
+            .replace(/ú/gi, "u");
+
+            
+}
 
 function muestraFechaHoyConFormato() {
 
