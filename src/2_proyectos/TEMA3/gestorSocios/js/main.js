@@ -9,16 +9,47 @@ const inputBuscador = document.getElementById("buscador");
 const filtroActividad = document.getElementById("filtro-actividad"); //es una lista desplegable (select - option)
 const orden = document.getElementById("orden"); //es una lista desplegable (select - option)
 
+const bPantallaCompleta = document.getElementById("btn-pantalla-completa");
+const tablaSociosListado = document.getElementById("listado");
+
+const fichaDatos = document.getElementById("ficha-datos");
+const formularioFicha = document.getElementById("form-ficha");
+const bVerFicha = formularioFicha.nextElementSibling;
+const inputDNI = document.getElementById("ficha-dni");
+const errorFicha = document.getElementById("ficha-error");
+
+const altaNombre = document.getElementById("alta-nombre");
+const errorNombre = document.getElementById("error-nombre");
+
+const altaApellidos = document.getElementById("alta-apellidos");
+const errorApellidos = document.getElementById("error-apellidos");
+
+const altaDNI = document.getElementById("alta-dni");
+const errorDNI = document.getElementById("error-dni");
+
+const altaEmail = document.getElementById("alta-email");
+const errorEmail = document.getElementById("error-email");
+
+const altaTlf = document.getElementById("alta-telefono");
+const errorTlf = document.getElementById("error-telefono");
+
+const altaNacimiento = document.getElementById("alta-nacimiento");
+const errorNacimiento = document.getElementById("error-nacimiento");
+
+const formAlta = document.getElementById("form-alta");
+const bDarDeAlta = formAlta.nextElementSibling.children[0];
+
 //---------------Cabecera---------------------------
-fechaHoy.innerHTML = muestraFechaHoyConFormato();
+let hoy = new Date();
+fechaHoy.innerHTML = muestraFechaHoyConFormato(hoy);
 
 horaActual.innerHTML = muestraHoraActual(); //lo hacemos aquí fuera del setInterval para que no tarde 1 segundo en aparecer
 
-// setInterval(function () {
+setInterval(function () {
 
-//     horaActual.innerHTML = muestraHoraActual();
+    horaActual.innerHTML = muestraHoraActual();
         
-// }, 1000); //cada segundo
+}, 1000); //cada segundo
 
 //--------------------------------------------------
 //---------------Listado de socios------------------
@@ -32,151 +63,296 @@ filtros();
 
 inputBuscador.addEventListener("input", filtros);
 
-// inputBuscador.addEventListener("input", function () { //para que se vaya actualizando
-//     let escrito = inputBuscador.value;
-  
-    
-//     escrito = ignorarTildes(escrito);
-
-
-//     let regExp = new RegExp(escrito, "ig"); //la i para que ignore mayúsculas y minúsculas
-//     let arrayCoincidencias = [];
-
-//     if (escrito.length >= 2) {
-        
-//         for (let obSocio of socios) {
-
-//             //quitar tildes
-//             let nombreSinTildes = ignorarTildes(obSocio.nombre);
-//             let apellidosSinTildes = ignorarTildes(obSocio.apellidos);
-//             let emailSinTildes = ignorarTildes(obSocio.email);
-            
-//             //si lo escrito a partir de 2 letras coincide con algún nombre, apellidos o email 
-//             if (regExp.test(nombreSinTildes) || regExp.test(apellidosSinTildes) || regExp.test(emailSinTildes)) {
-
-//                 arrayCoincidencias.push(obSocio);
-
-//                 if (!arrayCoincidenciasFiltrosBuscar.includes(obSocio))
-//                     arrayCoincidenciasFiltrosBuscar.push(obSocio);
-//             }
-//         }
-
-//         limpiaTabla(arrayNodosTR);
-//         // arrayNodosTR = muestraTablaConDatos(arrayCoincidencias);
-//         arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
-        
-        
-        
-//     }
-//     else {
-//         limpiaTabla(arrayNodosTR);
-//         //arrayNodosTR = muestraTablaConDatos(socios);
-//         arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
-//     }
-    
-    
-// });
-
-
 //--------------------------------------------------
 //------------Filtro de actividad-------------------
 
 filtroActividad.addEventListener("change", filtros);
 
-// filtroActividad.addEventListener("change", function () {
-
-//     let textoActiSeleccionada = this.options[this.selectedIndex].text;
-//     let arraySociosDeUnaActividad = [];
-
-//     //por cada socio vamos a ver en sus actividades si incluye la actividad buscada
-//     for (let obSocio of socios) {
-
-//         let arrayActividades = obSocio.actividades;
-
-//         let tieneActividad = arrayActividades.includes(textoActiSeleccionada.toLowerCase()); //lo ponemos en minúscula porque en el texto del option está la primera en mayúscula
-        
-//         //si el socio tiene esa actividad, lo metemos al array
-//         if (tieneActividad) {
-//             //arraySociosDeUnaActividad.push(obSocio);
-
-//             if (!arrayCoincidenciasFiltrosBuscar.includes(obSocio))
-//                 arrayCoincidenciasFiltrosBuscar.push(obSocio);
-//         }
-//         else if (this.value == "") { //si es todas las actividades
-//             //arraySociosDeUnaActividad = arrayCoincidenciasFiltrosBuscar; //si pones Todas las actividades salen todos los socios
-
-//             arrayCoincidenciasFiltrosBuscar = socios;
-            
-
-//         }
-//         else { //si no tiene la actividad
-//             arrayCoincidenciasFiltrosBuscar = arrayCoincidenciasFiltrosBuscar.filter(socio => socio.id !== obSocio.id);
-            
-//         }
-
-        
-        
-//     }
-
-    
-
-//     limpiaTabla(arrayNodosTR);
-//     //arrayNodosTR = muestraTablaConDatos(arraySociosDeUnaActividad);
-//     arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
-
-// });
 
 //--------------------------------------------------
 //-----------------Orden----------------------------
 orden.addEventListener("change", filtros);
-// orden.addEventListener("change", function () {
 
-//     if (this.value == "nombre") {
-//         arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
-//                                                             let nombreA = ignorarTildes(a.nombre);
-//                                                             let nombreB = ignorarTildes(b.nombre);
-//                                                             if (nombreA < nombreB) return -1;
-//                                                             if (nombreA > nombreB) return 1;
-//                                                             return 0;
-//                                                         });
+//--------------------------------------------------
+//-----------------PANTALLA COMPLETA----------------
+bPantallaCompleta.addEventListener("click", function () {
 
-//         // limpiaTabla(arrayNodosTR);
-//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenNombre);
-//     }
+    if (document.fullscreenElement == null) { //preguntamos si no hay ya algún elemento en pantalla completa
+        tablaSociosListado.requestFullscreen();
+    }
+    else {
+        document.exitFullscreen();
+    }
+});
 
-//     if (this.value == "apellidos") {
-//         arrayCoincidenciasFiltrosBuscar.sort(function (a, b) {
-//                                                             let apellidoA = ignorarTildes(a.apellidos);
-//                                                             let apellidoB = ignorarTildes(b.apellidos);
-//                                                             if (apellidoA < apellidoB) return -1;
-//                                                             if (apellidoA > apellidoB) return 1;
-//                                                             return 0;
-//                                                         });
+//este evento escuchar cambios de estado (detecta tanto el clic en el botón como la tecla Esc)
+//solo le cambiamos el texto al botón
+document.addEventListener("fullscreenchange", () => {
+    if (document.fullscreenElement !== null) {
+        bPantallaCompleta.textContent = "Salir de pantalla completa";
+    } 
+    else {
+        bPantallaCompleta.textContent = "Pantalla completa";
+    }
+});
 
-//         // limpiaTabla(arrayNodosTR);
-//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenApellido);
-//     }
+//--------------------------------------------------
+//-----------------FICHA DE SOCIO-------------------
+bVerFicha.addEventListener("click", function () {
 
-//     if (this.value == "jovenes") {
-//         arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(a.fechaNacimiento) 
-//                                                                     - aniosCumplidosHoy(b.fechaNacimiento)});
+    let dniIntroducido = inputDNI.value.toLowerCase();
+    let objetoSocio = null;
 
-//         // limpiaTabla(arrayNodosTR);
-//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenJovenes);
-//     }
+    fichaDatos.setAttribute("hidden", "");
     
-//     if (this.value == "antiguos") {
-//         arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(b.fechaNacimiento) 
-//                                                                     - aniosCumplidosHoy(a.fechaNacimiento)});
+    if (dniIntroducido == "") { //si no hay nada en el campo se muestra el mensaje de está vacío
+        fichaDatos.hidden = true;
+        document.getElementById("ficha-vacia").hidden = false; //el mensaje de vacío sí sale
+        errorFicha.hidden = true;
 
-//         // limpiaTabla(arrayNodosTR);
-//         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenAntiguos);
-//     }
+    }
+    else { //si hay algo, comprueba los dnis de los socios para ver si coincide alguno
+        for (let obSocio of socios) {
 
-//     limpiaTabla(arrayNodosTR);
-//     arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+            if (obSocio.dni.toLowerCase() == dniIntroducido)
+                objetoSocio = obSocio;
+            
+        }
 
-// });
+        if (objetoSocio) {
+            
+            muestraFicha(objetoSocio);
+            
+        }
+        else {
+            errorFicha.hidden = false; //error se ve
+            document.getElementById("ficha-vacia").hidden = true; //el error de vacío se oculta
+        }
+    }
+
+    
+
+});
+
+//--------------------------------------------------
+//-----------------ALTA DE SOCIO-------------------
+bDarDeAlta.addEventListener("click", function () {
+
+    let expRegNombreApellido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$/;
+    let expRegEmail = /^(?!.*\.\.)[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+    let expRegTlf = /^\s*[6789](?:\s*\d){8}\s*$/;
+    
+
+    let arrayTodoOK = [];
+
+    //nombre 
+    arrayTodoOK.push(validaCampos(expRegNombreApellido, altaNombre.value, errorNombre, "Nombre incorrecto"));
+    //apellidos 
+    arrayTodoOK.push(validaCampos(expRegNombreApellido, altaNombre.value, errorApellidos, "Apellidos incorrectos"));
+    //dni
+    //primero validamos formato y letra, y si es válido, comprobamos si ya existe
+    if (!validaDNI(altaDNI.value, errorDNI, "Letra o formato del DNI incorrecto")) {
+        arrayTodoOK.push(false);
+    } else if (!yaHayDNIexistente(altaDNI.value, errorDNI, "DNI ya existente")) {
+        arrayTodoOK.push(false);
+    } else {
+        errorDNI.innerHTML = ""; //limpia el error si todo está bien
+        arrayTodoOK.push(true);
+    }
+    //Email
+    arrayTodoOK.push(validaCampos(expRegEmail, altaEmail.value, errorEmail, "Email incorrecto"));
+    //teléfono
+    arrayTodoOK.push(validaCampos(expRegTlf, altaTlf.value, errorTlf, "Teléfono incorrecto"));
+    //fecha de nacimiento
+    arrayTodoOK.push(validaFechaNacimiento(altaNacimiento.value));
+
+});
+
+
+//********************************************************************** */
+//******************************FUNCIONES******************************* */
+//********************************************************************** */
+
+function validaFechaNacimiento(fecha) {
+
+    let expRegFechaNac = /^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+
+    if (expRegFechaNac.test(fecha)) { //si la fecha cumple con la expresión regular
+        let partesFecha = fecha.split("/");
+        let dia = parseInt(partesFecha[0]);
+        let mes = parseInt(partesFecha[1]);
+        let anio = parseInt(partesFecha[2]);
+        let hoy = new Date();
+
+        let fechaCompletaFormatoDate = anio + "-" + mes + "-" + dia;
+
+        let fechaDate = new Date(fechaCompletaFormatoDate);
+
+        //así preguntamos si ha salido bien:
+        if (fechaDate.getFullYear() === anio && fechaDate.getMonth() === mes - 1 && fechaDate.getDate() === dia) {
+            //la fecha es correcta
+            errorNacimiento.innerHTML = "";
+
+            if (fechaDate > hoy) { //si la fecha es futura y la edad mínima son 14 años
+
+                errorNacimiento.innerHTML = "No puede ser una fecha futura";
+                return false;
+
+            }
+            else if (aniosCumplidosHoy(fechaCompletaFormatoDate) < 14) {
+                errorNacimiento.innerHTML = "No puedes ser menor de 14 años";
+                return false;
+            }
+
+            return true;
+
+
+        }  
+        else {
+            //la fecha es falsa
+            errorNacimiento.innerHTML = "Fecha incorrecta";
+            return false;
+        }
+            
+    }
+}
+
+function yaHayDNIexistente(dni, campoError, cadenaError) {
+    let objetoSocio = null;
+
+    for (let obSocio of socios) {
+         
+        if (obSocio.dni == dni) {
+            objetoSocio = obSocio;
+        }
+    }
+
+    if (objetoSocio !== null) { //significa que sí existe, entonces debe dar un error
+        campoError.innerHTML = cadenaError;
+        return false
+    }
+    return true;
+}
+
+function validaDNI(dni, campoError, cadenaError) {
+
+    //debe tener 8 dígitos y una letra
+    let expRegDNI = /^\d{8}[A-Za-z]$/;
+
+    if (expRegDNI.test(dni)) {
+
+        //aquí comprobamos que sea la letra correcta:
+        let cadena = "TRWAGMYFPDXBNJZSQVHLCKE".toLowerCase();
+        let numDNI = parseInt(dni.substr(0, 8));
+        let letraCorrecta = cadena.charAt(numDNI % 23);
+
+        let letraDNI = dni.substr(8, 1).toLowerCase();
+
+        if (letraCorrecta == letraDNI) {
+            return true;
+        }
+
+        campoError.innerHTML = cadenaError;
+        return false;
+    }
+    else {
+        campoError.innerHTML = cadenaError;
+        return false;
+    }
+
+}
+
+function validaCampos(expresionRegular, valor, campoError, cadenaError) {
+
+    if (expresionRegular.test(valor)) {
+        campoError.innerHTML = "";
+        return true;
+    }
+    else {
+        campoError.innerHTML = cadenaError;
+        return false;
+    }
+}
+
+function muestraFicha(socio) {
+    let nombreCompleto = socio.nombre + " " + socio.apellidos;
+    // fichaDatos.hidden = false; //otra forma
+    fichaDatos.removeAttribute("hidden");
+    errorFicha.hidden = true; //se oculta
+    
+    document.getElementById("ficha-vacia").setAttribute("hidden", "");
+
+    document.getElementById("ficha-avatar").innerHTML = sacarInicialesNombre(nombreCompleto);
+    document.getElementById("ficha-nombre").innerHTML = nombreCompleto;
+    document.getElementById("ficha-id").innerHTML = socio.id;
+
+    document.getElementById("ficha-dni-dato").innerHTML = socio.dni;
+    document.getElementById("ficha-email").innerHTML = socio.email;
+    document.getElementById("ficha-dominio").innerHTML = socio.email.split("@")[1];
+    document.getElementById("ficha-telefono").innerHTML = telefono3en3(socio.telefono);
+
+    let cadena = muestraFechaHoyConFormato(socio.fechaNacimiento) + " · " + aniosCumplidosHoy(socio.fechaNacimiento).toString();
+    document.getElementById("ficha-nacimiento").innerHTML = cadena + " años";
+    let hoy = new Date();
+    let cadFechaHoy = hoy.getFullYear() + "-" + (hoy.getMonth()+1) + "-" + hoy.getDate();
+    document.getElementById("ficha-alta").innerHTML = sacaFechaFormatoCorto(socio.fechaAlta)  + " · " + diasPasadosDesdeUnaFecha(cadFechaHoy, socio.fechaAlta) + " días en el club";
+
+    let partesFechaProxCumple = socio.fechaNacimiento.split("-");
+    
+    let proximoCumple = hoy.getFullYear() + "-" + partesFechaProxCumple[1] + "-" + partesFechaProxCumple[2];;
+    let proximoCumpleDate = new Date(proximoCumple);
+    //si ya ha cumplido este año
+    if (proximoCumpleDate <= hoy) {
+        //le sumamos 1 al año
+        proximoCumple = (hoy.getFullYear()+1) + "-" + partesFechaProxCumple[1] + "-" + partesFechaProxCumple[2];
+        document.getElementById("ficha-cumple").innerHTML = "en " + diasPasadosDesdeUnaFecha(cadFechaHoy, proximoCumple) + " días";
+    }
+    else {
+        proximoCumple = hoy.getFullYear() + "-" + partesFechaProxCumple[1] + "-" + partesFechaProxCumple[2];
+        document.getElementById("ficha-cumple").innerHTML = "en " + diasPasadosDesdeUnaFecha(cadFechaHoy, proximoCumple) + " días";
+    }
+
+    let cadenaActividades = sacaActividades(socio).join(", ");
+    document.getElementById("ficha-actividades").innerHTML = cadenaActividades;
+
+    document.getElementById("ficha-cuota").innerHTML = saneaCuota(socio.cuota) + " €";
+    
+
+}
+
+function sacaActividades(socio) {
+    
+    let arrayActividades = socio.actividades;
+
+    return arrayActividades;
+}
+
+function diasPasadosDesdeUnaFecha(fechaLimite1, fechaLimite2) {
+    let fechaLimite1Date = new Date(fechaLimite1);
+    let fechaLimite2Date = new Date(fechaLimite2);
+
+    let diferencia = fechaLimite2Date - fechaLimite1Date;
+
+    let dias = diferencia / 1000 / 60 / 60 / 24;
+
+    //devolvemos los días entre esas fechas
+    return dias;
+}
+
+function sacaFechaFormatoCorto(fecha) {
+
+    let partes = fecha.split("-");
+    return partes[2] + "/" + partes[1] + "/" + partes[0];
+}
+
+function telefono3en3(tlf) {
+
+    let parte1 = tlf.substr(0, 3);
+    let parte2 = tlf.substr(3, 3);
+    let parte3 = tlf.substr(6, 3);
+
+    return parte1 + " " + parte2 + " " + parte3;
+}
 
 function filtros() {
 
@@ -259,12 +435,6 @@ function filtros() {
     arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
 }
 
-//********************************************************************** */
-//******************************FUNCIONES******************************* */
-//********************************************************************** */
-
-
-
 function ignorarTildes(cadena) {
 
     return cadena.toLowerCase()
@@ -277,10 +447,10 @@ function ignorarTildes(cadena) {
             
 }
 
-function muestraFechaHoyConFormato() {
+function muestraFechaHoyConFormato(fecha1) {
 
-    let hoy = new Date();
-    let diaSemana = hoy.getDay();
+    let fecha = new Date(fecha1);
+    let diaSemana = fecha.getDay();
 
     let arrayDiasSemana = [
         "Domingo", // es 0
@@ -294,9 +464,9 @@ function muestraFechaHoyConFormato() {
 
     let diaString = arrayDiasSemana[diaSemana];
 
-    let diaMes = hoy.getDate();
+    let diaMes = fecha.getDate();
 
-    let mes = hoy.getMonth();
+    let mes = fecha.getMonth();
 
     let arrayMeses = [
         "enero", // es 0
@@ -315,7 +485,7 @@ function muestraFechaHoyConFormato() {
 
     let mesString = arrayMeses[mes];
 
-    let anio = hoy.getFullYear();
+    let anio = fecha.getFullYear();
 
     return diaString + ", " + diaMes + " de " + mesString + " de " + anio;
 
@@ -568,7 +738,5 @@ function limpiaTabla(arrayNodosABorrar) {
     for (let i in arrayNodosABorrar) {
         tbody.removeChild(arrayNodosABorrar[i]);
     }
-    
-
     
 }

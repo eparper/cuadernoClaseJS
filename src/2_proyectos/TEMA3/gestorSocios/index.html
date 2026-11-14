@@ -108,14 +108,15 @@
               <span class="campo__etiqueta">DNI</span>
               <input type="text" id="ficha-dni" placeholder="12345678Z" maxlength="9" autocomplete="off">
             </label>
-            <button type="submit" class="btn">Ver ficha</button>
           </form>
+          <button class="btn">Ver ficha</button>
+          <br><br>
 
           <div id="resultado-ficha" aria-live="polite">
             <p class="vacio" id="ficha-vacia">Escribe un DNI para ver los datos del socio.</p>
 
             <p class="mensaje mensaje--error" id="ficha-error" hidden>No existe ningún socio con ese DNI.</p>
-
+            
             <article class="ficha" id="ficha-datos" hidden>
               <header class="ficha__cabecera">
                 <span class="avatar avatar--grande" id="ficha-avatar">LM</span>
@@ -195,11 +196,12 @@
               </fieldset>
             </div>
 
-            <div class="form-acciones">
-              <button type="submit" class="btn">Dar de alta</button>
-            </div>
+            
             <p class="mensaje mensaje--ok" id="aviso-alta" role="status" hidden>Socio Ana dado de alta con id SOC-0009</p>
           </form>
+          <div class="form-acciones">
+            <button class="btn">Dar de alta</button>
+          </div>
         </section>
       </div>
 
