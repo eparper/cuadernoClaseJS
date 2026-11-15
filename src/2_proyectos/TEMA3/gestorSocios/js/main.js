@@ -39,6 +39,8 @@ const errorNacimiento = document.getElementById("error-nacimiento");
 const formAlta = document.getElementById("form-alta");
 const bDarDeAlta = formAlta.nextElementSibling.children[0];
 
+const checkActividades = document.getElementsByName("actividades");
+
 //---------------Cabecera---------------------------
 let hoy = new Date();
 fechaHoy.innerHTML = muestraFechaHoyConFormato(hoy);
@@ -148,7 +150,7 @@ bDarDeAlta.addEventListener("click", function () {
     //nombre 
     arrayTodoOK.push(validaCampos(expRegNombreApellido, altaNombre.value, errorNombre, "Nombre incorrecto"));
     //apellidos 
-    arrayTodoOK.push(validaCampos(expRegNombreApellido, altaNombre.value, errorApellidos, "Apellidos incorrectos"));
+    arrayTodoOK.push(validaCampos(expRegNombreApellido, altaApellidos.value, errorApellidos, "Apellidos incorrectos"));
     //dni
     //primero validamos formato y letra, y si es válido, comprobamos si ya existe
     if (!validaDNI(altaDNI.value, errorDNI, "Letra o formato del DNI incorrecto")) {
@@ -165,13 +167,320 @@ bDarDeAlta.addEventListener("click", function () {
     arrayTodoOK.push(validaCampos(expRegTlf, altaTlf.value, errorTlf, "Teléfono incorrecto"));
     //fecha de nacimiento
     arrayTodoOK.push(validaFechaNacimiento(altaNacimiento.value));
+    arrayTodoOK.push(validaCheckActividades());
+
+    //SI TODO ES CORRECTO, SE AÑADE EL SOCIO:
+    if (!arrayTodoOK.includes(false)) {
+
+        let nuevoSocio = {};
+
+        nuevoSocio.id = sacaSiguienteID();
+        nuevoSocio.nombre = sacaNombre(altaNombre.value);
+        nuevoSocio.apellidos = sacaNombre(altaApellidos.value);
+        nuevoSocio.dni = sacaDNI(altaDNI.value);
+        nuevoSocio.email = altaEmail.value.toLowerCase();
+        nuevoSocio.telefono = altaTlf.value.trim();
+        nuevoSocio.fechaNacimiento = sacaFecha(altaNacimiento.value);
+        nuevoSocio.fechaAlta = sacaFechaAlta();
+        nuevoSocio.actividades = sacaActividades();
+        nuevoSocio.cuota = Math.floor(Math.random() * 100) + 1; //la cuota es random de 1 a 100
+
+
+
+        //se añade al array de socios
+        socios.push(nuevoSocio);
+
+        // console.log("Socio añadido:", nuevoSocio);
+        // console.log("Longitud del array:", socios.length);
+        // console.log("Último elemento:", socios[socios.length - 1]);
+        // console.log("DNIs actuales:", socios.map(socio => socio.dni));
+
+        limpiaTabla(arrayNodosTR);
+        arrayNodosTR = muestraTablaConDatos(arrayCoincidenciasFiltrosBuscar);
+
+        //mensaje de que se ha añadido
+        document.getElementById("aviso-alta").hidden = false;
+        document.getElementById("aviso-alta").innerHTML = "Socio " + nuevoSocio.nombre + 
+                                                            " dado de alta con id " + nuevoSocio.id;
+
+        //limpiar datos del formulario
+        formAlta.reset();
+        
+        for (let i in checkActividades) {
+            if (checkActividades[i].checked) {
+                checkActividades[i].removeAttribute("checked");
+            }
+        }
+    }
+    else {
+        document.getElementById("aviso-alta").hidden = true;
+    }
 
 });
+
+//--------------------------------------------------
+//-----------------ESTADÍSTICAS---------------------
+
+actualizaEstadisticas();
+
+setInterval(function () {
+
+    actualizaEstadisticas();
+        
+}, 100); //
+
+function actualizaEstadisticas() {
+    //num socios
+    document.getElementById("stat-total").innerHTML = socios.length;
+
+    //ingresos mensuales
+    let ingresosMensuales = 0;
+    let edades = 0;
+    let todasEdades = [];
+    let todasActividades = [];
+
+    for (let obSocio of socios) {
+        ingresosMensuales += obSocio.cuota;
+        edades += aniosCumplidosHoy(obSocio.fechaNacimiento); 
+        todasEdades.push(aniosCumplidosHoy(obSocio.fechaNacimiento));
+
+        for (let act in obSocio.actividades) {
+            todasActividades.push(obSocio.actividades[act]);
+        }
+        
+        
+    }
+    document.getElementById("stat-ingresos").innerHTML = saneaCuota(ingresosMensuales) + " €";
+    document.getElementById("stat-cuota-media").innerHTML = saneaCuota(ingresosMensuales/socios.length) + " €";
+    
+    document.getElementById("stat-edad-media").innerHTML = (edades / socios.length).toFixed(1) + " años";
+
+    todasEdades.sort();
+    document.getElementById("stat-edad-min").innerHTML = todasEdades[0].toString() + " años";
+    document.getElementById("stat-edad-max").innerHTML = todasEdades[todasEdades.length - 1].toString() + " años";
+
+    let contNatacion = 0;
+    let contYoga = 0;
+    let contPadel = 0;
+    let contMusculacion = 0;
+    let contSpinning = 0;
+    let contPilates = 0;
+
+    for (let i in todasActividades) {
+        if (todasActividades[i] == "natación")
+            contNatacion++;
+
+        if (todasActividades[i] == "yoga")
+            contYoga++;
+
+        if (todasActividades[i] == "pádel")
+            contPadel++;
+
+        if (todasActividades[i] == "musculación")
+            contMusculacion++;
+
+        if (todasActividades[i] == "spinning")
+            contSpinning++;
+
+        if (todasActividades[i] == "pilates")
+            contPilates++;
+
+    }
+
+    let arrayContadoresActividades = {
+        "natación": contNatacion, 
+        "yoga": contYoga,             
+        "pádel": contPadel, 
+        "musculación": contMusculacion, 
+        "spinning": contSpinning, 
+        "pilates": contPilates
+    };
+
+    let actividadMayor = "";
+    let numeroMayor = 0;
+
+    for (let actividad in arrayContadoresActividades) {
+        if (arrayContadoresActividades[actividad] > numeroMayor) {
+            numeroMayor = arrayContadoresActividades[actividad];
+            actividadMayor = actividad;
+        }
+    }
+
+    document.getElementById("stat-actividad").innerHTML = actividadMayor  + " (" + numeroMayor + " socios)";
+
+    let menores = todasEdades.filter(function (edad) {
+        return edad < 18;
+    });
+
+    if (menores.length > 0) {
+        document.getElementById("stat-menores").innerHTML = "Sí";
+    }
+    else {
+        document.getElementById("stat-menores").innerHTML = "No";
+    }
+
+
+    let todosTienenACTS = [];
+    for (let obSocio of socios) {
+
+        if (obSocio.actividades.length > 0) { //tienen actividad
+            todosTienenACTS.push(true);
+        }
+        else {
+            todosTienenACTS.push(false);
+        }
+    }
+
+    if (todosTienenACTS.includes(false)) { //alguno no tiene actividad
+        document.getElementById("stat-todos-actividad").innerHTML = "No";
+    }
+    else {
+        document.getElementById("stat-todos-actividad").innerHTML = "Sí";
+    }
+
+    //socios veteranos
+    let veteranos = socios;
+
+    veteranos.sort((a, b) => new Date(a.fechaAlta) - new Date(b.fechaAlta));
+
+    document.getElementById("socioVeterano1").innerHTML = veteranos[0].nombre + " " + veteranos[0].apellidos;
+    document.getElementById("socioVeterano2").innerHTML = veteranos[1].nombre + " " + veteranos[1].apellidos;
+    document.getElementById("socioVeterano3").innerHTML = veteranos[2].nombre + " " + veteranos[2].apellidos;
+    
+    document.getElementById("fecha1").innerHTML = sacaFechaFormatoCorto(veteranos[0].fechaAlta);
+    document.getElementById("fecha2").innerHTML = sacaFechaFormatoCorto(veteranos[1].fechaAlta);
+    document.getElementById("fecha3").innerHTML = sacaFechaFormatoCorto(veteranos[2].fechaAlta);
+    
+
+    //dominios
+    let dominios = [];
+    for (let obSocio of socios) {
+
+        let partes = obSocio.email.split("@");
+        let dominio = partes[1];
+
+        if (!dominios.includes(dominio)) { //si el dominio aún no está, se añade
+            dominios.push(dominio);
+        }
+        
+    }
+
+    let padreDominios = document.getElementById("stat-dominios");
+
+    //limpiamos antes de añadir porque con el setInterval lo añadiría muchas veces si no limpiamos
+    padreDominios.innerHTML = "";
+
+    for (let i in dominios) {
+
+        let elemento = createNode("li", dominios[i], "", "", [{class: "chip"}]);
+        padreDominios.appendChild(elemento);
+    }
+    
+    
+
+}
 
 
 //********************************************************************** */
 //******************************FUNCIONES******************************* */
 //********************************************************************** */
+function sacaDNI(dni) {
+
+    return dni.trim().toUpperCase();
+
+}
+
+function sacaActividades() {
+
+    let arrayActividades = [];
+
+    for (let i in checkActividades) {
+        if (checkActividades[i].checked) {
+            arrayActividades.push(checkActividades[i].value);
+        }
+    }
+
+    return arrayActividades;
+}
+
+function sacaFechaAlta() {
+
+    let hoy = new Date();
+
+    let anio = hoy.getFullYear();
+    let mes = hoy.getMonth() + 1;
+    let dia = hoy.getDate();
+
+    return anio + "-" + mes + "-" + dia;
+
+
+}
+
+function sacaFecha(fecha) {
+
+    let partes = fecha.split("/");
+
+    return partes[2] + "-" + partes[1] + "-" + partes[0];
+}
+
+function sacaNombre(nombre) {
+
+    let partes = nombre.split(" ");
+    let arrayNombre = [];
+
+    for (let i in partes) {
+
+        let primeraLetra = partes[i].charAt(0).toUpperCase();
+        let resto = partes[i].substr(1).toLowerCase(); //desde el 1 hasta el final
+        //uniomos la primera letra con el resto de la palabra
+        let nombreCompleto = primeraLetra + resto; //partes[i].substr(1, nombre.length - 1); 
+        arrayNombre.push(nombreCompleto);
+    }
+
+    return arrayNombre.join(" ");
+}
+
+function sacaSiguienteID() {
+    let arrayIDs = [];
+
+    for (let obSocio of socios) {
+        arrayIDs.push(obSocio.id);
+    }
+
+    let arrayIDordenado = arrayIDs.sort();
+    let ultimoElem = arrayIDordenado[arrayIDordenado.length-1];
+
+    //le quitamos SOC-
+    let soloNUM = ultimoElem.replace("SOC-", "");
+    let proxNum = parseInt(soloNUM) + 1;
+
+    let cuatroDigitos = proxNum.toString().padStart(4, "0");
+
+    //le ponemos SOC-
+    let idFinal = "SOC-" + cuatroDigitos;
+
+    return idFinal;
+
+}
+
+function validaCheckActividades() {
+
+    let arrayChecks = [];
+
+    for (let i in checkActividades) {
+        if (checkActividades[i].checked) {
+            arrayChecks.push(checkActividades[i]);
+        }
+    }
+
+    if (arrayChecks.length >= 1) {
+        document.getElementById("error-actividades").innerHTML = "";
+        return true;
+    }
+
+    document.getElementById("error-actividades").innerHTML = "Debes elegir al menos 1 actividad";
+    return false;
+}
 
 function validaFechaNacimiento(fecha) {
 
@@ -215,22 +524,30 @@ function validaFechaNacimiento(fecha) {
         }
             
     }
+    else {
+        //la fecha es falsa
+        errorNacimiento.innerHTML = "Fecha incorrecta";
+        return false;
+    }
 }
 
 function yaHayDNIexistente(dni, campoError, cadenaError) {
-    let objetoSocio = null;
+    let dniMayus = dni.trim().toUpperCase();
 
-    for (let obSocio of socios) {
-         
-        if (obSocio.dni == dni) {
-            objetoSocio = obSocio;
-        }
-    }
+    let existe = socios.some(obSocio =>
+        obSocio.dni.trim().toUpperCase() === dniMayus
+    );
 
-    if (objetoSocio !== null) { //significa que sí existe, entonces debe dar un error
+    //console.log("DNI introducido:", dniMayus);
+    //console.log("DNIs existentes:", socios.map(socio => socio.dni));
+    //console.log("¿Está repetido?:", existe);
+
+    if (existe) { //significa que sí existe, entonces debe dar un error
         campoError.innerHTML = cadenaError;
         return false
     }
+
+    campoError.innerHTML = "";
     return true;
 }
 
@@ -312,7 +629,7 @@ function muestraFicha(socio) {
         document.getElementById("ficha-cumple").innerHTML = "en " + diasPasadosDesdeUnaFecha(cadFechaHoy, proximoCumple) + " días";
     }
 
-    let cadenaActividades = sacaActividades(socio).join(", ");
+    let cadenaActividades = sacaActividades1(socio).join(", ");
     document.getElementById("ficha-actividades").innerHTML = cadenaActividades;
 
     document.getElementById("ficha-cuota").innerHTML = saneaCuota(socio.cuota) + " €";
@@ -320,7 +637,7 @@ function muestraFicha(socio) {
 
 }
 
-function sacaActividades(socio) {
+function sacaActividades1(socio) {
     
     let arrayActividades = socio.actividades;
 
@@ -661,14 +978,21 @@ function abreviarSegundoApellido(nombreCompleto) {
 
     let partesNombre = nombreCompleto.split(" ");
     
-    let primerNombre = partesNombre[0];
-    let primerApellido = partesNombre[1];
-    let segundoApellido = partesNombre[2];
+    //let primerNombre = partesNombre[0];
+    let primerApellido = partesNombre[partesNombre.length-2]; //le quitamos 2 por el índice y por ser el penúltimo
+    let segundoApellido = partesNombre[partesNombre.length-1]; //le quitamos uno por el índice
+    //let segundoApellido = partesNombre[2];
+
+    let apellidos = primerApellido  + " " + segundoApellido;
 
     let letraApellido = segundoApellido.charAt(0);
 
+    //aquí vamos a coger donde empieza el primer apellido
+
+
     //devuelve el nombre, primer apellido y letra con punto
-    return primerNombre + " " + primerApellido + " " + letraApellido + ".";
+    return nombreCompleto.replace(segundoApellido, letraApellido + ".");
+    //return primerNombre + " " + primerApellido + " " + letraApellido + ".";
 }
 
 function ocultarEmail(email) {
@@ -711,13 +1035,23 @@ function aniosCumplidosHoy(fechaNacimiento) {
 
 function saneaCuota(enteroCuota) {
 
-    return enteroCuota.toPrecision(4);
+    return enteroCuota.toFixed(2);
 
 }
 
 function muestraTablaConDatos(listaSocios) {
     let nodoTRparaTabla;
     let arrayNodosTR = [];
+
+    if (listaSocios.length === 0) {
+        //mostrar mensaje de error si no hay nada en la lista
+        document.getElementById("vacio").hidden = false;
+        document.getElementById("vacio").innerHTML = "No se han encontrado socios";
+        return arrayNodosTR;
+    }
+
+    //ocultar mensaje de error si hay algo en la lista
+    document.getElementById("vacio").hidden = true;
 
     //recorrer socios para insertar los datos con nodos en la tabla
     for (let cont = 0; cont < listaSocios.length; cont++) {

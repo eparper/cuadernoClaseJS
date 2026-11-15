@@ -87,9 +87,9 @@
               <td data-label="Actividades"><span class="chips"><span class="chip">natación</span><span class="chip">yoga</span></span></td>
               <td data-label="Cuota" class="num">35.00 €</td>
             </tr> -->
-            <!-- Fila para cuando no hay resultados (usa esta estructura desde JS):
-            <tr class="fila-vacia"><td colspan="6">No hay socios que coincidan</td></tr>
-            -->
+            <!-- Fila para cuando no hay resultados (usa esta estructura desde JS): -->
+            <tr class="fila-vacia"><td colspan="6" id="vacio" hidden>No hay socios que coincidan</td></tr>
+            
           </tbody>
         </table>
       </div>
@@ -211,31 +211,31 @@
           <h2 id="titulo-stats">Estadísticas</h2>
 
           <div class="cifras">
-            <div class="cifra"><span class="cifra__valor" id="stat-total">10</span><span class="cifra__texto">socios</span></div>
-            <div class="cifra"><span class="cifra__valor" id="stat-ingresos">350.00 €</span><span class="cifra__texto">ingresos al mes</span></div>
+            <div class="cifra"><span class="cifra__valor" id="stat-total"></span><span class="cifra__texto">socios</span></div>
+            <div class="cifra"><span class="cifra__valor" id="stat-ingresos"></span><span class="cifra__texto">ingresos al mes</span></div>
           </div>
 
           <dl class="datos datos--stats">
-            <div><dt>Cuota media</dt><dd id="stat-cuota-media">35.00 €</dd></div>
-            <div><dt>Edad media</dt><dd id="stat-edad-media">34.5 años</dd></div>
-            <div><dt>Edad mínima</dt><dd id="stat-edad-min">17 años</dd></div>
-            <div><dt>Edad máxima</dt><dd id="stat-edad-max">62 años</dd></div>
-            <div><dt>Actividad más popular</dt><dd id="stat-actividad">natación (6 socios)</dd></div>
-            <div><dt>¿Hay menores de edad?</dt><dd id="stat-menores">Sí</dd></div>
-            <div><dt>¿Todos tienen actividad?</dt><dd id="stat-todos-actividad">Sí</dd></div>
+            <div><dt>Cuota media</dt><dd id="stat-cuota-media"></dd></div>
+            <div><dt>Edad media</dt><dd id="stat-edad-media"></dd></div>
+            <div><dt>Edad mínima</dt><dd id="stat-edad-min"></dd></div>
+            <div><dt>Edad máxima</dt><dd id="stat-edad-max"></dd></div>
+            <div><dt>Actividad más popular</dt><dd id="stat-actividad"></dd></div>
+            <div><dt>¿Hay menores de edad?</dt><dd id="stat-menores"></dd></div>
+            <div><dt>¿Todos tienen actividad?</dt><dd id="stat-todos-actividad"></dd></div>
           </dl>
 
           <h3 class="subtitulo">Socios más veteranos</h3>
           <ol class="lista-veteranos" id="stat-veteranos">
-            <li><span>Lucía Martín Ruiz</span><small>02/09/2012</small></li>
-            <li><span>Pedro Gil Soto</span><small>15/01/2014</small></li>
-            <li><span>Ana Ortega Vera</span><small>03/06/2015</small></li>
+            <li><span id="socioVeterano1"></span><small id="fecha1"></small></li>
+            <li><span id="socioVeterano2">Pedro Gil Soto</span><small  id="fecha2"></small></li>
+            <li><span id="socioVeterano3">Ana Ortega Vera</span><small id="fecha3"></small></li>
           </ol>
 
           <h3 class="subtitulo">Dominios de correo</h3>
           <ul class="chips" id="stat-dominios">
-            <li class="chip">correo.es</li>
-            <li class="chip">gmail.com</li>
+            <!-- <li class="chip">correo.es</li> -->
+            
           </ul>
         </section>
       </aside>
