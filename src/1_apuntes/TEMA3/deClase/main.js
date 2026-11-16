@@ -86,7 +86,7 @@ document.getElementById("aSendMail").onclick = function () {
             throw Error("El email está vacío");
         }
 
-        //si va todo bien:
+        //si va todo bien: //usersWindow.closed es también si está minimizada
         if ((!usersWindow) || (usersWindow.closed)) { //si ya vale algo distinto de null
 
             //usersWindow = window.open("email.html", "_blank", "width=650px,height=450px,top=300px,left=850px");
@@ -175,8 +175,8 @@ document.getElementById("aSendMail").onclick = function () {
 const URL = location.href; //esta forma ya le pone la barra final (es mejor)
 
 document.getElementById("aMail").onclick = function (e) {
-    e.preventDefault();
-    
+    e.preventDefault();//que no recargue la página, sino que solo se cambie y ya está
+    //reemplaza donde estemos, por la de email
     location.replace(URL + "/../email.html");
 }
 
