@@ -36,6 +36,9 @@ const errorTlf = document.getElementById("error-telefono");
 const altaNacimiento = document.getElementById("alta-nacimiento");
 const errorNacimiento = document.getElementById("error-nacimiento");
 
+const altaCuota = document.getElementById("alta-cuota");
+const errorCuota = document.getElementById("error-cuota");
+
 const formAlta = document.getElementById("form-alta");
 const bDarDeAlta = formAlta.nextElementSibling.children[0];
 
@@ -143,7 +146,11 @@ bDarDeAlta.addEventListener("click", function () {
     let expRegNombreApellido = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$/;
     let expRegEmail = /^(?!.*\.\.)[a-zA-Z0-9_-]+(?:\.[a-zA-Z0-9_-]+)*@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
     let expRegTlf = /^\s*[6789](?:\s*\d){8}\s*$/;
-    
+    //let expRegCuota = /^[0-9]{0,3}[,.][0-9]{0,2}$/;
+    //let expRegCuota = /^[0-9]{1,3}([\,.]{1}(?=[0-9]{0,2}))?$/g;
+    let expRegCuota = /^([0-9]{1,3})([.|\,][0-9]{1,2})?$/g;
+
+    let expRegDecimales = /.*[.|\,][0-9]{1,2}$/g;
 
     let arrayTodoOK = [];
 
@@ -168,6 +175,7 @@ bDarDeAlta.addEventListener("click", function () {
     //fecha de nacimiento
     arrayTodoOK.push(validaFechaNacimiento(altaNacimiento.value));
     arrayTodoOK.push(validaCheckActividades());
+    arrayTodoOK.push(validaCampos(expRegCuota, altaCuota.value, errorCuota, "Formato de la cuota incorrecto"));
 
     //SI TODO ES CORRECTO, SE AÑADE EL SOCIO:
     if (!arrayTodoOK.includes(false)) {
@@ -183,7 +191,13 @@ bDarDeAlta.addEventListener("click", function () {
         nuevoSocio.fechaNacimiento = sacaFecha(altaNacimiento.value);
         nuevoSocio.fechaAlta = sacaFechaAlta();
         nuevoSocio.actividades = sacaActividades();
-        nuevoSocio.cuota = Math.floor(Math.random() * 100) + 1; //la cuota es random de 1 a 100
+
+        //si NO tiene decimales
+        if (!validaCampos(expRegDecimales, altaCuota.value, errorCuota, ""))
+            nuevoSocio.cuota = parseInt(altaCuota.value);
+        else { //si no tiene decimales:
+            nuevoSocio.cuota = parseFloat(altaCuota.value);
+        }
 
 
 

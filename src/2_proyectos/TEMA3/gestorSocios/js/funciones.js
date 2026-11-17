@@ -45,6 +45,9 @@ function actualizaEstadisticas() {
         
     }
     document.getElementById("stat-ingresos").innerHTML = saneaCuota(ingresosMensuales) + " €";
+
+    
+
     document.getElementById("stat-cuota-media").innerHTML = saneaCuota(ingresosMensuales/socios.length) + " €";
     
     document.getElementById("stat-edad-media").innerHTML = (edades / socios.length).toFixed(1) + " años";
@@ -370,6 +373,8 @@ function validaDNI(dni, campoError, cadenaError) {
 
 }
 
+
+
 function validaCampos(expresionRegular, valor, campoError, cadenaError) {
 
     if (expresionRegular.test(valor)) {
@@ -424,7 +429,21 @@ function muestraFicha(socio) {
     document.getElementById("ficha-actividades").innerHTML = cadenaActividades;
 
     document.getElementById("ficha-cuota").innerHTML = saneaCuota(socio.cuota) + " €";
-    
+    document.getElementById("ficha-curiosidad").innerHTML = "Tiene " + sacaVocales(nombreCompleto).length + " vocales";
+
+}
+
+function sacaVocales(nombreCompleto) {
+
+    let regExp = new RegExp("[aeiou]", "gi")
+
+    let nombre = ignorarTildes(nombreCompleto);
+
+    //esto es un array
+    let coincidencias = nombre.match(regExp);
+
+    return coincidencias.join("");
+
 
 }
 
@@ -534,6 +553,13 @@ function filtros() {
     if (orden.value == "antiguos") {
         arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return aniosCumplidosHoy(b.fechaNacimiento) 
                                                                     - aniosCumplidosHoy(a.fechaNacimiento)});
+
+        // limpiaTabla(arrayNodosTR);
+        // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenAntiguos);
+    }
+
+    if (orden.value == "cuota") {
+        arrayCoincidenciasFiltrosBuscar.sort((a, b) => {return b.cuota - a.cuota});
 
         // limpiaTabla(arrayNodosTR);
         // arrayNodosTR = muestraTablaConDatos(arraySociosOrdenAntiguos);
@@ -749,7 +775,43 @@ function creaNodoSocioParaTabla (socio) {
     let elementoTDcuota = createNode("td", saneaCuota(socio.cuota) + " €", "", "", [{"data-label":"Cuota"},{"class":"num"}]);
     elementoTR.appendChild(elementoTDcuota);
 
+    //PARA LA ANTIGüEDAD
+    //let hoy = new Date();
+    //let dias = diasPasadosDesdeUnaFecha(socio.fechaAlta, hoy);
+    let anios = aniosCumplidosHoy(socio.fechaAlta);
+    let meses = sacaMeses(socio.fechaAlta);
+    let cadenaAntiguedad = (anios == 1? anios + " año": anios + " años") + " y " + 
+                            (meses == 1? meses + " mes": meses + " meses");
+    let elementoTDantiguedad = createNode("td", cadenaAntiguedad, "", "", [{"class":"num"}]);
+    elementoTR.appendChild(elementoTDantiguedad);
+
     return elementoTR;
+}
+
+function sacaMeses(fechaAlta) {
+    let hoy = new Date();
+
+    let fechaAlt = new Date(fechaAlta);
+
+    //restamos los años en bruto
+    //let anios = hoy.getFullYear() - fechaAlt.getFullYear();
+
+
+    //si diferenciaMeses da negativo es que el mes de fecha de alta es mayor
+    //si diferenciaMeses da positivo es que el mes de hoy es mayor
+    //si da 0, es que son iguales los meses;
+    const diferenciaMeses = hoy.getMonth() - fechaAlt.getMonth();
+
+    //si diferenciaMeses es menor de 0: le restamos un año a los años brutos porque significa que el mes de cumpleaños no ha llegado aún
+    //si los meses son iguales también vamos a comprobar que el día de cumpleaños no haya llegado aún (o sea, que el día de hoy sea menor que el de cumple), 
+    //en este caso también se le resta 1 porque no ha llegado su cumpleaños
+    // if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < fechaNac.getDate())) {
+    //     anios--;
+    // }
+
+    return diferenciaMeses;
+
+    
 }
 
 function sacarInicialesNombre(nombreCompleto) {

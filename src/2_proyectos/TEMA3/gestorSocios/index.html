@@ -60,6 +60,7 @@
             <option value="apellidos">Apellidos</option>
             <option value="jovenes">Más jóvenes primero</option>
             <option value="antiguos">Más antiguos primero</option>
+            <option value="cuota">Cuota más alta primero</option>
           </select>
         </label>
       </div>
@@ -74,6 +75,7 @@
               <th scope="col" class="num">Edad</th>
               <th scope="col">Actividades</th>
               <th scope="col" class="num">Cuota</th>
+              <th scope="col">Antigüedad</th>
             </tr>
           </thead>
           <tbody id="cuerpo-tabla">
@@ -135,6 +137,7 @@
                 <div><dt>Próximo cumpleaños</dt><dd id="ficha-cumple">en 125 días</dd></div>
                 <div><dt>Actividades</dt><dd id="ficha-actividades">natación, yoga</dd></div>
                 <div><dt>Cuota mensual</dt><dd id="ficha-cuota">35.00 €</dd></div>
+                <div><dt>Curiosidad</dt><dd id="ficha-curiosidad"></dd></div>
               </dl>
             </article>
           </div>
@@ -195,6 +198,12 @@
                 </div>
                 <p class="error-msg" id="error-actividades" role="alert"></p>
               </fieldset>
+            </div>
+            <br>
+            <div class="campo campo--ancho" id="campo-cuota">
+              <label class="campo__etiqueta" for="alta-cuota">Cuota</label>
+              <input type="text" id="alta-cuota" name="cuota" placeholder="100.00" autocomplete="off">
+              <p class="error-msg" id="error-cuota" role="alert"></p>
             </div>
 
             
