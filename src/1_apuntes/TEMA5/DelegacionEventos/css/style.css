@@ -1,0 +1,54 @@
+/* Estilos CSS para probar getElementsByClassName() */
+.pares {
+    background-color: aquamarine;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 0.5%;
+}
+
+.impares {
+    background-color: black;
+    color: aquamarine;
+    border: 1px solid aquamarine;
+    border-radius: 8px;
+    padding: 0.5%;
+}
+
+.section1 {
+    float: left;
+    width: 45%;
+    height: 40%;
+    border: 2px solid black;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.section1 img {
+
+    height: 75%;
+}
+
+.modoNoche {
+    background-color: #C9BDBB;
+    color: #EDEBEB;
+}
+
+.modoNoche a {
+    background-color: #8F84B0;
+    color: #EAE9F0;
+}
+
+.modoNoche button {
+    background-color: rgb(169, 169, 169);
+    color: #EAE9F0;
+}
+
+input[type="radio"] {
+    display: inline-block;
+}
+
+form {
+    border: 1px solid black;
+    border-radius: 15px;
+    margin: 0.5%;
+}
