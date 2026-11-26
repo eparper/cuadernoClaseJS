@@ -1,5 +1,42 @@
 const info = document.getElementById("info");
 
+const login = document.getElementById("login");
+
+login.focus();
+
+console.log(document.activeElement);
+
+
+for (let input of document.forms[0]) {
+    input.addEventListener("focus", function (e) {
+        input.style.border = "5px solid red";
+    });
+}
+
+for (let input of document.forms[0]) {
+    input.addEventListener("blur", function (e) {
+        input.style.border = "1px solid black";
+    });
+}
+
+
+// let elemFoco = document.activeElement;
+// elemFoco.style.border = "5px solid red";
+
+// elemFoco.addEventListener("focus", function (e) {
+
+//     elemFoco.style.border = "5px solid red";
+
+
+// });
+
+// elemFoco.addEventListener("blur", function (e) {
+
+//     elemFoco.style.border = "1px solid black";
+//     elemFoco = document.activeElement;
+
+// });
+
 // const paisesLi = document.getElementById("paises").getElementsByTagName("li");
 
 
@@ -85,3 +122,40 @@ function checkRadioEdades(e) {
         }
     }
 }
+
+
+//*************************************** */
+const listaDespColores = document.getElementById("colores");
+
+listaDespColores.addEventListener("change", function (e) {
+
+    //e.target.value es lo mismo que this.value
+    info.innerHTML = "Color seleccionado: " + e.target.value;
+    document.body.style.backgroundColor = this.value;
+
+    console.dir(this.options);
+    console.dir(this.selectedIndex);
+    console.dir(this.options[this.selectedIndex]);
+    console.dir(this.options[this.selectedIndex].text);
+
+    console.dir(this.selectedOptions);
+});
+
+/************************************ */
+//escribir todos los caracteres menos la E
+const taMenosE = document.getElementById("taMenosE");
+
+taMenosE.addEventListener("input", function (e) {
+
+    let ultimaLetra = e.target.value.charAt(e.target.value.length - 1);
+
+    if ((ultimaLetra == "e") || (ultimaLetra == "E"))
+    {
+        e.target.value = e.target.value.substring(0, e.target.value.length-1);
+    }
+});
+
+document.getElementById("range1").addEventListener("input", (e) => {
+
+    info.innerHTML = e.target.value;
+});
