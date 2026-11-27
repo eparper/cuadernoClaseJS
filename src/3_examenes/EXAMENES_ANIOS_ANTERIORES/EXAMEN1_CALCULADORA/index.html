@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/main.js" defer></script>
+</head>
+<body>
+
+    <table>
+      <tr>
+        <td colspan="4"><textarea id="taResultado" rows="5" cols="30"></textarea></td>
+      </tr>
+
+      <tr>
+        <td colspan="4">
+          <input type="number" id="operando" style="width: 120px;" placeholder="op">
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="3">
+          <input type="radio" name="versiones" id="" checked><label for="versiones">Básica</label>
+          <input type="radio" name="versiones" id=""><label for="versiones">Avanzada</label>
+        </td>
+        <td>
+          <input type="button" value="Limpiar">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <input type="button" value="+" name="botonOperacion">
+        </td>
+        <td>
+          <input type="button" value="-" name="botonOperacion">
+        </td>
+        <td>
+          <input type="button" value="x" name="botonOperacion">
+        </td>
+        <td>
+          <input type="button" value="/" name="botonOperacion">
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <input type="button" value="√" name="botonOperacion">
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          
+        </td>
+        <td>
+          <input type="button" value="=" name="botonOperacion">
+        </td>
+      </tr>
+
+
+    </table>
+
+</body>
+</html>
